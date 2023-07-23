@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+        
+         <!--Estos son links de conexion-->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+        
+    </h:head>
+    <h:body>
+        <!--Esto es la conexion a mapbox-->
+        <div id='map' style='width: 400px; height: 300px;'></div>
+        <script>
+            <!--el accessToken es un codigo especial que la pagina de mapbox se la al acceder, -->
+           <!-- abria que ver si es el mismo para todos para que no de error -->
+          mapboxgl.accessToken = 'pk.eyJ1Ijoic2ViYXN2ZDI5IiwiYSI6ImNsa2JxYzAwaDBpYnIzcm54eHc2aHFwbTUifQ.zYhLbAM2_s9a5qZQX4FTqQ';
+          var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11'
+          });
+        </script>
+        <!-- esto es fin de la conexin-->
+        
+        
+        Hello from Facelets
+    </h:body>
+</html>
+
