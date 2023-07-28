@@ -125,13 +125,13 @@ header {
 }
 
 .wrapper .form-box.login{
-    /*display: none;*/
+   
     transition: transform .18s ease;
     transform: translateX(0);
 
 }
 .wrapper.active .form-box.login{
-    /*display: none;*/
+
     transition: none;
     transform: translateX(-400px);
 
