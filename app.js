@@ -12,7 +12,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'none'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com", "https://maps.googleapis.com"],
       imgSrc: ["'self'", "data:"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       connectSrc: ["'self'", "https://unpkg.com"],
@@ -62,7 +62,7 @@ app.get('/mapa', (req, res) => {
 app.post('/login', (req, res) => {
   const { name, password } = req.body;
   console.log('Intento de inicio de sesión:', name, password);
-  res.redirect('/mapa');
+ // res.redirect('/mapa');
 
   // Realizar la consulta a la base de datos para verificar el usuario y contraseña
   const sql = 'SELECT * FROM users WHERE name = ? AND password = ?';
