@@ -15,7 +15,7 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com", "https://maps.googleapis.com"],
       imgSrc: ["'self'", "data:"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      connectSrc: ["'self'", "https://unpkg.com"],
+      connectSrc: ["'self'", "https://unpkg.com", "https://maps.googleapis.com"],
     },
   },
 }));
@@ -25,11 +25,25 @@ app.use(helmet({
 
 // Configurar conexión a la base de datos MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'admin',
+  host: '%',
+  user: 'admin',
+  password: 'root',
   database: 'uvep'
 });
+
+/*// Configurar conexión a la base de datos MySQL Mauricio
+
+const db = mysql.createConnection({
+
+  host: 'localhost',
+
+  user: 'root',
+
+  password: 'admin',
+
+  database: 'uvep'
+
+}); */
 
 // Conectar a la base de datos
 db.connect((err) => {
