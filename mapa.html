@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+       <!-- <link  rel='stylesheet'  href="loginStyle.css"/>-->
         <link  rel='stylesheet'  href="mapaStyle.css"/>
-        <link  rel='stylesheet'  href="loginStyle.css"/>
     </head>
     <body>
         <header>
@@ -17,10 +17,35 @@
             </nav>    
         </header> 
 
+        <div class="page">
+            <div class="sidebar">
+                <h3>Ubicacion</h3>
+                <div class="links">
+                    <ul>
+                        <li>
+                            <!--<a href="#"><iconify-icon icon="icon-park-solid:local-two"></iconify-icon></a>-->
+                            <h5>Ingrese la posicion Inicial</h5>
+                            <input type="text" id="inputInicio" placeholder="Ubicacion de Inicio" />
+                            <h5>Ingrese la posicion Final</h5>
+                            <input type="text" id="inputFinal" placeholder="Ubicacion Final" />
+
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <div id='map'></div>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY"></script>
-        <script src = 'mapaJS.js'></script>
+
+        <script 
+        src = 'mapaJS.js'></script>
+        <script 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places"></script>
+        <script 
+        src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
     </body>
 </html>
+
+
