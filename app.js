@@ -12,8 +12,8 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'none'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com", "https://maps.googleapis.com"],
-      imgSrc: ["'self'", "data:" , "https://maps.gstatic.com", "https://maps.googleapis.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com", "https://maps.googleapis.com", "https://code.iconify.design"],
+      imgSrc: ["'self'", "data:", "https://maps.gstatic.com", "https://maps.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       connectSrc: ["'self'", "https://unpkg.com", "https://maps.googleapis.com"],
     },
