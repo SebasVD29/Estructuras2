@@ -17,8 +17,9 @@
         </header> 
         <div class="page">
             <div class="sidebar">
-                <h3>Ubicacion</h3>
+                
                 <div class="links">
+                    
                     <ul>
                         <li>
                             <h5>Ingrese la posicion Inicial</h5>
@@ -29,23 +30,26 @@
                         </li>
                         
                     </ul>
+                    <!-- elementos para mostrar resultados -->
+
+                    <div class="results">
+                        <h4>Resultados:</h4>
+                        <p>Distancia: <span id="distanceResult">___</span> metros</p>
+                        <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
+                        <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
+                      </div>
+                    <button class="btnCalcular" onclick="calcularPonderado()">Calcular Costo Ponderado</button>
                 </div>
             </div>
         </div>
-
+  
         <div id='map'></div>
-<!-- elementos para mostrar resultados -->
-<div class="results">
-    <h4>Resultados:</h4>
-    <p>Distancia: <span id="distanceResult">-</span> metros</p>
-    <p>Tiempo de llegada: <span id="timeResult">-</span> minutos</p>
-    <p>Costo ponderado: <span id="weightedCostResult">-</span></p>
-  </div>
-  <button class="btnCalcular" onclick="calcularPonderado()">Calcular Costo Ponderado</button>
+
+ 
         <script 
         src = 'mapaJS.js'></script>
         <script 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places"></script>
                                                     <!-- Mauricio->AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places-->
                                                     <!-- Ruth ->AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places-->
         <script 
