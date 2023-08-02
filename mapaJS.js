@@ -98,7 +98,7 @@ function calculateWeightedCost(distance, timeInMinutes) {
   const timeWeight = 0.5;
 
   const distanceInKm = distance / 1000;
-  const timeInMinutes = timeInMinutes / 60;
+  //const timeInMinutes = timeInMinutes / 60;
 
   const weightedCost = distanceInKm * distanceWeight + timeInMinutes * timeWeight;
 
