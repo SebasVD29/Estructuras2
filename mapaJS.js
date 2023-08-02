@@ -21,7 +21,13 @@ function BusquedaDeLugar() {
 
   busquedaIncio.addListener("place_changed", function () {
     const place1 = busquedaIncio.getPlace();
+    if (!place1.geometry) {
+      return; // Si no se seleccionó una ubicación válida, salir de la función
+    }
     map.setCenter(place1.geometry.location);
+    if (marker1) {
+      marker1.setMap(null); // Remover el marcador anterior, si existe
+    }
     marker1 = new google.maps.Marker({
       position: place1.geometry.location,
       map: map,
@@ -31,11 +37,17 @@ function BusquedaDeLugar() {
       lat: place1.geometry.location.lat(),
       lng: place1.geometry.location.lng(),
     };
-    calcularPonderado();
+    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
   });
 
   busquedaFinal.addListener("place_changed", function () {
     const place2 = busquedaFinal.getPlace();
+    if (!place2.geometry) {
+      return; // Si no se seleccionó una ubicación válida, salir de la función
+    }
+    if (marker2) {
+      marker2.setMap(null); // Remover el marcador anterior, si existe
+    }
     marker2 = new google.maps.Marker({
       position: place2.geometry.location,
       map: map,
@@ -44,7 +56,7 @@ function BusquedaDeLugar() {
       lat: place2.geometry.location.lat(),
       lng: place2.geometry.location.lng(),
     };
-    calcularPonderado();
+    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
   });
 }
 
