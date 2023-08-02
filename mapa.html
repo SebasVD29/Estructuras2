@@ -8,17 +8,18 @@
 </head>
 <body>
 
-  <div class="bubble-menu">
-    <i class="fas fa-bars"></i>
-    <div class="bubble"></div>
-    <ul class="options">
-      <a href="index.html">Inicio</a>
-      <a href="#">Sobre Nosotros</a>
-      <a href="#">Servicios</a>
-      <a href="#">Contacto</a>
-      <button class="btnLogin-popup">LogIn</button>
-    </ul>
-  </div>
+  <header>
+
+    <nav class ="navigation">
+        <a href ="index.html">Inicio</a>
+        <a href ="mapa.html">Mapa</a>
+        <a href ="#">Sobre Nosotros</a>
+        <a href ="#">Servicios</a>
+        <a href ="#">Contacto</a>
+        <button >Logout</button>
+        <!--class ="btnLogout-popup">-->
+    </nav>    
+</header> 
 
 
   <div class="page">
@@ -40,7 +41,7 @@
           <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
           <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
         </div>
-        <button class="btnCalcular" onclick="calcularPonderado()">Calcular Costo Ponderado</button>
+
       </div>
     </div>
   </div>
