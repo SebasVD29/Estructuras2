@@ -4,17 +4,19 @@
         <link  rel='stylesheet'  href="mapaStyle.css"/>
     </head>
     <body>
-        <header>
-            <h2 class = "UveP"> UveP</h2>
-            <nav class ="navigation">
+      
+            <div class="bubble-menu">
+                <div class="bubble"></div>
+                <ul class="options">
                 <a href ="index.html">Inicio</a>
-                <a href ="mapa.html">Mapa</a>
                 <a href ="#">Sobre Nosotros</a>
                 <a href ="#">Servicios</a>
                 <a href ="#">Contacto</a>
                 <button class ="btnLogin-popup">LogIn</button>
+                </ul>
+                </div>
             </nav>    
-        </header> 
+     
         <div class="page">
             <div class="sidebar">
                 <h3>Ubicacion</h3>
@@ -45,11 +47,23 @@
         <script 
         src = 'mapaJS.js'></script>
         <script 
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places"></script>
                                                     <!-- Mauricio->AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places-->
                                                     <!-- Ruth ->AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places-->
         <script 
-        src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+        src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js">
+         const coordsCostaRica = { lat: 10.0000000, lng: -84.0000000 };
+    const divMapa = document.getElementById('map');
+    const inputInicio = document.getElementById('inputInicio');
+    const inputFinal = document.getElementById('inputFinal');
+    var map;
+    let marker1, marker2;
+    let busquedaIncio;
+    let busquedaFinal;
+    let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
+    let distance, timeInMinutes   ; // Variables para almacenar la distancia y tiempo de llegada.
+
+    </script>
 
     </body>
 </html>

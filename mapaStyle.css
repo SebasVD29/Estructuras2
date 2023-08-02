@@ -324,6 +324,47 @@ header {
 .btnCalcular:hover {
   background-color: #0e1e2f;
 }
+.bubble-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.bubble {
+  width: 50px;
+  height: 50px;
+  background-color: #f00; /* Color de la burbuja */
+  
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  top: 60px; /* Ajusta la posición vertical del menú desplegable */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff; /* Color del fondo del menú desplegable */
+  border: 1px solid #ddd; /* Bordes del menú desplegable */
+  border-radius: 5px;
+  padding: 10px;
+  display: none;
+}
+
+/* Mostrar el menú desplegable cuando se haga clic en la burbuja */
+.bubble-menu:hover .options {
+  display: block;
+}
+
+/* Estilos para cada opción del menú desplegable */
+.options li {
+  list-style: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.options li:hover {
+  background-color: #f0f0f0; /* Color de fondo al pasar el cursor sobre las opciones */
+}
 
 
 

@@ -33,6 +33,11 @@ function BusquedaDeLugar(){
       position: place1.geometry.location,
       map: map,
     });
+      // Almacenar las coordenadas de la posición inicial.
+      position1 = {
+        lat: place1.geometry.location.lat(),
+        lng: place1.geometry.location.lng(),
+      };
   });
 
   busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
@@ -42,7 +47,10 @@ function BusquedaDeLugar(){
       position: place2.geometry.location,
       map: map,
     });
-    
+    position2 = {
+      lat: place2.geometry.location.lat(),
+      lng: place2.geometry.location.lng(),
+    };
   });
 
 }
