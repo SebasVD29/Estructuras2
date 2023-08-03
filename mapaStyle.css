@@ -68,7 +68,7 @@ header {
   transform: scaleX(1);
 }
 
-.navigation .btnLogin-popup {
+.navigation .btnLogOut {
   width: 130 px;
   height: 50 px;
   background: transparent;
@@ -79,13 +79,16 @@ header {
   font-size: 1.1em;
   color: #fff;
   font-weight: 500;
-  margin-left: 40px;
-  transition: 0.5s;
+  justify-content: space-between;
+  transition: .5s;
+
+  
 }
 
-.navigation .btnLogin-popup:hover {
+.navigation .btnLogOut:hover{
   background: #fff;
   color: #162938;
+
 }
 
 .wrapper {

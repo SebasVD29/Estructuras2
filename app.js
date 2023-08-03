@@ -130,3 +130,13 @@ app.post('/registro', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor Echo escuchando en http://localhost:${port}`);
 });
+
+//Cerrar Sesión
+app.delete("/logout", (req, res) => {
+  req.logout(req.user, err => {
+      if (err) return next(err)
+      res.redirect("/")
+  })
+})
+
+
