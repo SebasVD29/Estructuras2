@@ -132,11 +132,9 @@ app.listen(port, () => {
 });
 
 //Cerrar Sesión
-app.delete("/logout", (req, res) => {
-  req.logout(req.user, err => {
-      if (err) return next(err)
-      res.redirect("/")
-  })
+router.post('/logout', (req, res) =>{
+  req.logout()
+  res.redirect('/login')
 })
 
 
