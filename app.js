@@ -132,17 +132,9 @@ app.listen(port, () => {
 });
 
 //Cerrar Sesión
-router.get('/logout', (req, res) => {
-  req.logout();
-  if (req.session) {
-    req.session.destroy(function (err) {
-      if (err) {
-        console.log(err)
-      }
-      console.log("Destroyed the user session on Auth0 endpoint");
-      res.redirect('https://<myapp>.auth0.com/v2/logout?client_id=<clientId>&returnTo=http://localhost:3000/');
-    });
-  }
-});
+router.post('/logout', (req, res) =>{
+  req.logout()
+  res.redirect('/login')
+})
 
 
