@@ -1,62 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel='stylesheet' href="mapaStyle.css" />
+  <head>
+    <link rel='stylesheet' href="mapaStyle.css" />
 
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://maps.googleapis.com https://code.iconify.design;">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://maps.googleapis.com https://code.iconify.design;">
+  
+  </head>
+  <body>
 
-</head>
-<body>
+    <header>
 
-  <header>
-
-    <nav class ="navigation">
+      <nav class ="navigation">
         <a href ="index.html">Inicio</a>
         <a href ="mapa.html">Mapa</a>
         <a href ="#">Sobre Nosotros</a>
         <a href ="#">Servicios</a>
         <form action="/logout" method="POST">
-        <button type ="submit">LogOut</button>
-      </form>
-        
-        <!--class ="btnLogout-popup">-->
-    </nav>    
-</header> 
+          <button type ="submit">LogOut</button>
+        </form>   
+          <!--class ="btnLogout-popup">-->
+      </nav>    
+    </header> 
 
-
-  <div class="page">
-    <div class="sidebar">
-        <h2 class = "UveP"> UveP</h2>
-      <div class="links">
-        <ul>
-          <li>
-            <h5>Ingrese la posición Inicial</h5>
-            <input type="text" id="inputInicio" placeholder="Ubicación de Inicio" />
-            <h5>Ingrese la posición Final</h5>
-            <input type="text" id="inputFinal" placeholder="Ubicación Final" />
-          </li>
-        </ul>
-        <!-- elementos para mostrar resultados -->
-        <div class="results">
-          <h4>Resultados:</h4>
-          <p>Distancia: <span id="distanceResult">___</span> metros</p>
-          <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
-          <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
+    <div id="rol-conduc-content" style="display: none;">
+      <div class="page">
+        <div class="sidebar">
+          <h2 class = "UveP"> UveP</h2>
+          <div class="links">
+            <ul>
+              <li>
+                <h5>Ingrese la posición Inicial</h5>
+                <input type="text" id="inputInicio" placeholder="Ubicación de Inicio" />
+              </li>
+            </ul>
+            <!-- elementos para mostrar resultados -->
+            <div class="results">
+              <h4>Resultados del Conductor:</h4>
+              <p>Distancia: <span id="distanceResult">___</span> metros</p>
+              <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
+              <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
+            </div>
+            
+          </div>
         </div>
-
       </div>
     </div>
-  </div>
 
-  <div id='map'></div>
+    <div id="rol-pasaj-content" style="display: none;">
+      <div class="page">
+        <div class="sidebar">
+          <h2 class = "UveP"> UveP</h2>
+          <div class="links">
+            <ul>
+              <li>
+                <h5>Ingrese la posición Inicial</h5>
+                <input type="text" id="inputInicio" placeholder="Ubicación de Inicio" />
+                <h5>Ingrese la posición Final</h5>
+                <input type="text" id="inputFinal" placeholder="Ubicación Final" />
+              </li>
+            </ul>
+            <!-- elementos para mostrar resultados -->
+            <div class="results">
+              <h4>Resultados del pasajero:</h4>
+              <p>Distancia: <span id="distanceResult">___</span> metros</p>
+              <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
+              <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <script src="mapaJS.js"></script>
-  <script 
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry"></script>
-  <script 
-        src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <div id='map'></div>
 
-</body>
+    <script src="mapaJS.js"></script>
+    <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry"></script>
+    <script 
+          src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  </body>
 </html>
 
 <!-- Mauricio->AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places-->

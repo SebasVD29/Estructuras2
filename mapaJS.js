@@ -5,6 +5,48 @@ const inputFinal = document.getElementById('inputFinal');
 let map;
 let marker1, marker2;
 let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
+var usuario;
+
+fetch('/datos')
+.then((response) => response.json())
+.then((data) => {
+  // Manipula los datos recibidos y colócalos en el DOM del cliente
+  usuario = data;
+  console.log('1 Usuario',usuario[0]);
+  console.log('rol', usuario[0].rol);
+
+})
+.catch((error) => {
+  console.error('Error al obtener los datos:', error);
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  function mostrarContenidoSegunRol() {
+    
+    console.log('3 Usuario',usuario);
+
+    if (usuario[0].rol === 'admin') {
+      // Mostrar el contenido para el rol de administrador
+      console.log("Contenido del admin")
+      document.getElementById('rol-conduc-content').style.display = 'inline';
+      document.getElementById('rol-pasaj-content').style.display = 'inline';
+
+    } else if(usuario[0].rol === 'conductor') {
+      // Mostrar el contenido para usuarios conductores
+      document.getElementById('rol-conduc-content').style.display = 'inline';
+      console.log("Contenido del conductor")
+      
+    }else if(usuario[0].rol === 'pasajero'){
+      // Mostrar el contenido para usuarios pasajeros
+      document.getElementById('rol-pasaj-content').style.display = 'block';
+      console.log("Contenido del pasajero")
+
+    }
+  }
+  document.addEventListener('DOMContentLoaded', mostrarContenidoSegunRol())
+});
+
+
 
 function initMap() {
   map = new google.maps.Map(divMapa, {
@@ -38,13 +80,14 @@ function BusquedaDeLugar() {
       lng: place1.geometry.location.lng(),
     };
     calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
-  });
+  })
 
   busquedaFinal.addListener("place_changed", function () {
     const place2 = busquedaFinal.getPlace();
     if (!place2.geometry) {
       return; // Si no se seleccionó una ubicación válida, salir de la función
     }
+    map.setCenter(place2.geometry.location);
     if (marker2) {
       marker2.setMap(null); // Remover el marcador anterior, si existe
     }
@@ -123,8 +166,13 @@ function calcularPonderado() {
   }
 }
 
+
+
+
+
+
 //Cerrar Sesión
-router.get('/logout', (req, res) => {
+/*router.get('/logout', (req, res) => {
   req.logout();
   if (req.session) {
     req.session.destroy(function (err) {
@@ -132,7 +180,7 @@ router.get('/logout', (req, res) => {
         console.log(err)
       }
       console.log("Destroyed the user session on Auth0 endpoint");
-      res.redirect('https://<myapp>.auth0.com/v2/logout?client_id=<clientId>&returnTo=http://localhost:3000/');
+      res.redirect('/');
     });
   }
-});
+});*/

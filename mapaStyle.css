@@ -25,6 +25,8 @@ body {
 
 header {
   position: fixed;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;

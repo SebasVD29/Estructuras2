@@ -6,6 +6,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const helmet = require('helmet');
+var Usuario;
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -55,14 +56,18 @@ db.connect((err) => {
 
 // Configurar body-parser para analizar datos en las solicitudes
 app.use(express.static(path.join(__dirname)));
+
+app.use(express.static('public'));
+
 // Definir ruta para la página principal
 app.get('/', (req, res) => {
   const filePath = path.join(__dirname, 'index.html');
   res.sendFile(filePath);
 });
+
 // Configurar body-parser para analizar datos en las solicitudes
 app.use(bodyParser.urlencoded({ extended: true }));
-// Definir ruta para la página principal (index.html)
+
 app.get('/', (req, res) => {
   const filePath = path.join(__dirname, 'index.html');
   res.sendFile(filePath);
@@ -72,11 +77,19 @@ app.get('/mapa', (req, res) => {
   const filePath = path.join(__dirname, 'mapa.html');
   res.sendFile(filePath);
 });
+app.get('/', (req, res) => {
+  // Simulando una respuesta JSON válida desde el servidor
+  const data = { mensaje: 'Respuesta JSON válida' };
+  res.json(data);
+});
+
+
+
 // Ruta para el inicio de sesión (POST)
 app.post('/login', (req, res) => {
-  const { name, password } = req.body;
-  console.log('Intento de inicio de sesión:', name, password);
- // res.redirect('/mapa');
+  const name = req.body.name;
+  const password = req.body.password;
+  console.log('1 Intento de inicio de sesión:', name, password);
 
   // Realizar la consulta a la base de datos para verificar el usuario y contraseña
   const sql = 'SELECT * FROM users WHERE name = ? AND password = ?';
@@ -84,21 +97,32 @@ app.post('/login', (req, res) => {
     if (err) {
       throw err;
     }
-
     // Si hay un resultado, el usuario y contraseña son válidos
-    if (result.length > 0) {
-      // Redirigir al mapa
-      res.redirect('/mapa');
-    } else {
+    if (result.length === 0) {  
       // Mostrar un mensaje de error en la página de inicio de sesión
-      res.send('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
-   }
+      res.status(401).json({ error: 'Credenciales inválidas' });
+      return;
+    }
+
+    // Redirigir al mapa
+    res.redirect('/mapa');
+    Usuario = result;
+    
+    
   });
+});
+
+app.get('/datos', (req, res) => {
+  // Supongamos que tienes una variable llamada "miVariable" con los datos que deseas enviar al cliente
+  Usuario;
+  //console.log(Usuario);
+  // Envía la variable como respuesta en formato JSON
+  res.json(Usuario);
 });
 
 // Ruta para el registro de un nuevo usuario (POST)
 app.post('/registro', (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, rol } = req.body;
 
   // Verificar si el nombre de usuario ya está registrado en la base de datos
   const checkUserQuery = 'SELECT * FROM users WHERE name = ?';
@@ -112,8 +136,8 @@ app.post('/registro', (req, res) => {
       res.send('El nombre de usuario ya está registrado. Por favor, elige otro nombre de usuario.');
     } else {
       // Si el nombre de usuario no está registrado, insertar al nuevo usuario en la base de datos
-      const insertUserQuery = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-      db.query(insertUserQuery, [name, email, password], (err, result) => {
+      const insertUserQuery = 'INSERT INTO users (name, email, password, rol) VALUES (?, ?, ?, ?)';
+      db.query(insertUserQuery, [name, email, password, rol], (err, result) => {
         if (err) {
           throw err;
         }
