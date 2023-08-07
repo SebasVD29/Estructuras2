@@ -25,13 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('3 Usuario',usuario);
 
-    if (usuario[0].rol === 'admin') {
-      // Mostrar el contenido para el rol de administrador
-      console.log("Contenido del admin")
-      document.getElementById('rol-conduc-content').style.display = 'inline';
-      document.getElementById('rol-pasaj-content').style.display = 'inline';
-
-    } else if(usuario[0].rol === 'conductor') {
+    if(usuario[0].rol === 'conductor') {
       // Mostrar el contenido para usuarios conductores
       document.getElementById('rol-conduc-content').style.display = 'inline';
       console.log("Contenido del conductor")
