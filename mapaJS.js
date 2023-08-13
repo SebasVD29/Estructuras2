@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(usuario[0].rol === 'conductor') {
       // Mostrar el contenido para usuarios conductores
-      document.getElementById('rol-conduc-content').style.display = 'inline';
+      document.getElementById('rol-conduc-content').style.display = 'block';
       console.log("Contenido del conductor")
       
     }else if(usuario[0].rol === 'pasajero'){

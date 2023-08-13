@@ -263,7 +263,7 @@ header {
 }
 
 .page {
-  display: flex;
+ /* display: flex;*/
   margin-top: 75px;
   justify-content: left;
   align-items: normal;

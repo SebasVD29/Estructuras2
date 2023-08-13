@@ -112,14 +112,6 @@ app.post('/login', (req, res) => {
   });
 });
 
-app.get('/datos', (req, res) => {
-  // Supongamos que tienes una variable llamada "miVariable" con los datos que deseas enviar al cliente
-  Usuario;
-  //console.log(Usuario);
-  // Envía la variable como respuesta en formato JSON
-  res.json(Usuario);
-});
-
 // Ruta para el registro de un nuevo usuario (POST)
 app.post('/registro', (req, res) => {
   const { name, email, password, rol } = req.body;
@@ -144,9 +136,18 @@ app.post('/registro', (req, res) => {
 
         // Redirigir al mapa una vez que se registra el nuevo usuario
         res.redirect('/mapa');
+        Usuario = result;
       });
     }
   });
+});
+
+app.get('/datos', (req, res) => {
+  // Supongamos que tienes una variable llamada "miVariable" con los datos que deseas enviar al cliente
+  Usuario;
+  //console.log(Usuario);
+  // Envía la variable como respuesta en formato JSON
+  res.json(Usuario);
 });
 
 
