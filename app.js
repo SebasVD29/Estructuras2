@@ -151,32 +151,19 @@ app.get('/datos', (req, res) => {
 });
 
 
-app.post("/viajes", (req, res) => {
-  const { nodoInicio, nodoDestino, distancia, tiempo } = req.body;
-
-  // Guardar los datos del viaje en la base de datos
-  db.query(
-    "INSERT INTO viajes (nodoViajeInicio, nodoViajeDestino, ponderado, tiempo) VALUES (?, ?, ?, ?)",
-    [nodoInicio, nodoDestino, distancia, tiempo],
-    (err, result) => {
-      if (err) throw err;
-
-      db.query("SELECT * FROM Viajes", (err, viajesResult) => {
-        if (err) throw err; 
-        viajes = viajesResult;
-        // Devolver los resultados al cliente
-        //res.json(viajesResult);
-      });  
-    });
-});
 
 app.get('/datos-viajes', (req, res) => {
-  viajes;
-  console.log(viajes);
-  // Envía la variable como respuesta en formato JSON
-  res.json(viajes);
-});
+  const query = 'SELECT * FROM Viajes'; // Cambia la consulta según tus necesidades
 
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error al obtener los datos:', error);
+      res.status(500).json({ error: 'Error de servidor' });
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 
 // Iniciar el servidor

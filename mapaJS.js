@@ -1,11 +1,12 @@
 const coordsCostaRica = { lat: 10.0000000, lng: -84.0000000 };
 const divMapa = document.getElementById('map');
-const inputInicio = document.getElementById('inputInicioP');
+const inputInicio = document.getElementById('inputInicio');
 const inputFinal = document.getElementById('inputFinal');
 let map;
 let marker1, marker2;
 let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
 let usuario;
+
 
 fetch('/datos')
 .then((response) => response.json())
@@ -13,6 +14,8 @@ fetch('/datos')
   // Manipula los datos recibidos y colócalos en el DOM del cliente
   usuario = data;
   console.log('1 Usuario',usuario[0]);
+
+  
   //console.log('rol', usuario[0].rol);  
 })
 .catch((error) => {
@@ -20,9 +23,10 @@ fetch('/datos')
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+
   function mostrarContenidoSegunRol() {
     
-    console.log('3 Usuario',usuario[0]);
+    console.log('3 Usuario', usuario[0])
 
     if(usuario[0].rol === 'conductor') {
       // Mostrar el contenido para usuarios conductores
