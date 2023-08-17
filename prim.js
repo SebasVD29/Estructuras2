@@ -46,34 +46,6 @@ function arbol() {
 
   console.log("arbol", selectedEdges);*/
 };
-/*
-function primAlgorithm(nodo) {
-  const selectedNodes = new Set();
-  const selectedEdges = [];
-
-  selectedNodes.add(nodo[0]);
-
-  while (selectedNodes.size < nodes.length) {
-    let minEdge = null;
-
-    for (const edge of edges) {
-      if (
-        (selectedNodes.has(edge.from) && !selectedNodes.has(edge.to)) ||
-        (selectedNodes.has(edge.to) && !selectedNodes.has(edge.from))
-      ) {
-        if (!minEdge || edge.weight < minEdge.weight) {
-          minEdge = edge;
-        }
-      }
-    }
-
-    selectedNodes.add(minEdge.to);
-    selectedNodes.add(minEdge.from);
-    selectedEdges.push(minEdge);
-  }
-
-  return selectedEdges;
-}
 
 /*
 function primAlgorithm(nodes, edges) {
