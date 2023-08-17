@@ -150,8 +150,6 @@ app.get('/datos', (req, res) => {
   res.json(Usuario);
 });
 
-
-
 app.get('/datos-viajes', (req, res) => {
   const query = 'SELECT * FROM Viajes'; // Cambia la consulta según tus necesidades
 

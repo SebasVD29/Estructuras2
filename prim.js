@@ -1,9 +1,11 @@
 var viajes;
-var nodos, aristas;
+//var nodos, aristas;
 fetch("/datos-viajes")
   .then((response) => response.json())
   .then((data) => {
-    console.log("Datos", data);
+    viajes = data;
+    console.log("Datos", viajes);
+    /*
     for (let n = 0; n < data.length; n++) {
       nodos = {
         id: data[n].idViaje,
@@ -19,27 +21,32 @@ fetch("/datos-viajes")
 
       console.log("nodos", nodos);
       console.log("Aristas", aristas);
-    }
+    }*/
+    arbol();
   })
   .catch((error) => {
     console.error("Error al obtener los datos:", error);
   });
-/*
+
 function arbol() {
-  const nodo = viajes.map((viaje) => ({
-    from: viaje.nodoViajeInicio,
-    to: viaje.nodoViajeDestino,
-    weight: viaje.ponderado,
+  const nodes = viajes.map((node) => ({ 
+    id: node.idViaje, 
+    name: node.nodoViajeInicio }));
+  const edges = viajes.map((edge) => ({
+    from: edge.nodoViajeInicio,
+    to: edge.nodoViajeDestino,
+    weight: edge.ponderado,
   }));
 
-  console.log('nodo', nodo)
+  console.log("nodos", nodes);
+  console.log("Aristas", edges);
 
   // Calcular el árbol de expansión mínima usando el algoritmo de Prim
-  const selectedEdges = primAlgorithm(nodo);
+  /*const selectedEdges = primAlgorithm(nodes, edges);
 
-  console.log("arbol", selectedEdges);
+  console.log("arbol", selectedEdges);*/
 };
-
+/*
 function primAlgorithm(nodo) {
   const selectedNodes = new Set();
   const selectedEdges = [];

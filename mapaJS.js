@@ -7,7 +7,6 @@ let marker1, marker2;
 let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
 let usuario;
 
-
 fetch('/datos')
 .then((response) => response.json())
 .then((data) => {
