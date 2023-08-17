@@ -1,11 +1,11 @@
 const coordsCostaRica = { lat: 10.0000000, lng: -84.0000000 };
 const divMapa = document.getElementById('map');
-const inputInicio = document.getElementById('inputInicio');
+const inputInicio = document.getElementById('inputInicioP');
 const inputFinal = document.getElementById('inputFinal');
 let map;
 let marker1, marker2;
 let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
-var usuario;
+let usuario;
 
 fetch('/datos')
 .then((response) => response.json())
@@ -13,8 +13,7 @@ fetch('/datos')
   // Manipula los datos recibidos y colócalos en el DOM del cliente
   usuario = data;
   console.log('1 Usuario',usuario[0]);
-  console.log('rol', usuario[0].rol);
-
+  //console.log('rol', usuario[0].rol);  
 })
 .catch((error) => {
   console.error('Error al obtener los datos:', error);
@@ -23,11 +22,12 @@ fetch('/datos')
 document.addEventListener('DOMContentLoaded', () => {
   function mostrarContenidoSegunRol() {
     
-    console.log('3 Usuario',usuario);
+    console.log('3 Usuario',usuario[0]);
 
     if(usuario[0].rol === 'conductor') {
       // Mostrar el contenido para usuarios conductores
       document.getElementById('rol-conduc-content').style.display = 'block';
+      
       console.log("Contenido del conductor")
       
     }else if(usuario[0].rol === 'pasajero'){
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Contenido del pasajero")
 
     }
-  }
-  document.addEventListener('DOMContentLoaded', mostrarContenidoSegunRol())
+  };
+  document.addEventListener('DOMContentLoaded', mostrarContenidoSegunRol());
 });
 
 

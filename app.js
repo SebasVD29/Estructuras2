@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const helmet = require('helmet');
-var Usuario;
+var Usuario, viajes;
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -149,6 +149,34 @@ app.get('/datos', (req, res) => {
   // Envía la variable como respuesta en formato JSON
   res.json(Usuario);
 });
+
+
+app.post("/viajes", (req, res) => {
+  const { nodoInicio, nodoDestino, distancia, tiempo } = req.body;
+
+  // Guardar los datos del viaje en la base de datos
+  db.query(
+    "INSERT INTO viajes (nodoViajeInicio, nodoViajeDestino, ponderado, tiempo) VALUES (?, ?, ?, ?)",
+    [nodoInicio, nodoDestino, distancia, tiempo],
+    (err, result) => {
+      if (err) throw err;
+
+      db.query("SELECT * FROM Viajes", (err, viajesResult) => {
+        if (err) throw err; 
+        viajes = viajesResult;
+        // Devolver los resultados al cliente
+        //res.json(viajesResult);
+      });  
+    });
+});
+
+app.get('/datos-viajes', (req, res) => {
+  viajes;
+  console.log(viajes);
+  // Envía la variable como respuesta en formato JSON
+  res.json(viajes);
+});
+
 
 
 // Iniciar el servidor
