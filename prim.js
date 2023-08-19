@@ -1,4 +1,6 @@
 var viajes;
+const inputInicio = document.getElementById('inputInicio');
+const inputFinal = document.getElementById('inputFinal');
 //var nodos, aristas;
 fetch("/datos-viajes")
   .then((response) => response.json())
@@ -110,7 +112,7 @@ function iniciarViaje() {
   btnPopUp.addEventListener('click', () => {
     wrapper.classList.add('active');
 
-    const locations = [{nodoViajeInicio,nodoViajeDestino}];
+    const locations = [{inputInicio,inputFinal}];
       //nodoViajeInicio = document.getElementById('inputInicio').value;
       //const nodoViajeDestino = document.getElementById('inputFinal').value];
   
