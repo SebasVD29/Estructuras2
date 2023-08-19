@@ -103,45 +103,44 @@ function primAlgorithm(locations) {
   return distances;
 }
 function iniciarViaje() {
-
   const btnPopUp = document.querySelector('.btnViaje');
-
+  const wrapper = document.getElementById('wrapper'); // Agrega la referencia al elemento 'wrapper'
+  const coordsCostaRica = { lat: 9.7489, lng: -83.7534 }; // Coordenadas de Costa Rica o cualquier otro centro de referencia
+  
   btnPopUp.addEventListener('click', () => {
     wrapper.classList.add('active');
   
-  
-  const map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 9,
-    center: coordsCostaRica ,  mapTypeId: google.maps.MapTypeId.ROADMAP, 
-  });
-
-  
-  locations.forEach((location) => {
-    new google.maps.Marker({
-      position: location,
-      map: map,
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 9,
+      center: coordsCostaRica,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     });
-  })
 
+    locations.forEach((location) => {
+      new google.maps.Marker({
+        position: location,
+        map: map,
+      });
+    });
 
- // Calcular y mostrar la ruta más corta usando el algoritmo de Prim
- const distances = primAlgorithm(locations);
+    // Calcular y mostrar la ruta más corta usando el algoritmo de Prim
+    const distances = primAlgorithm(locations);
 
- let previousVertex = 0;
- let totalDistance = 0;
+    let previousVertex = 0;
+    let totalDistance = 0;
 
- for (let i = 1; i < locations.length; i++) {
-   totalDistance += distances[i];
-   const line = new google.maps.Polyline({
-     path: [locations[previousVertex], locations[i]],
-     strokeColor: '#FF0000',
-     strokeOpacity: 1.0,
-     strokeWeight: 2,
-     map: map,
-   });
-   previousVertex = i;
- }
+    for (let i = 1; i < locations.length; i++) {
+      totalDistance += distances[i];
+      const line = new google.maps.Polyline({
+        path: [locations[previousVertex], locations[i]],
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+        map: map,
+      });
+      previousVertex = i;
+    }
+  });
+}
 
-  })
-
-iniciarViaje()};
+iniciarViaje();
