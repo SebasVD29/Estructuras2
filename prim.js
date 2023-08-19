@@ -104,6 +104,12 @@ function primAlgorithm(locations) {
 }
 function iniciarViaje() {
 
+  const btnPopUp = document.querySelector('.btnViaje');
+
+  btnPopUp.addEventListener(function () {
+
+  
+
   
   const map = new google.maps.Map(document.getElementById('map'), {
     zoom: 9,
@@ -116,7 +122,7 @@ function iniciarViaje() {
       position: location,
       map: map,
     });
-  });
+  })
 
 
  // Calcular y mostrar la ruta más corta usando el algoritmo de Prim
@@ -137,10 +143,6 @@ function iniciarViaje() {
    previousVertex = i;
  }
 
+  })
 
-
-
-
-}
-
-iniciarViaje();
+iniciarViaje()};
