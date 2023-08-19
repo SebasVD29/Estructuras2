@@ -230,6 +230,5 @@ const logout = document.querySelector('#logout')
 
 logout.addEventListener('click', ()=>{
     alert('Cerrar Sesión')
-    //localStorage.removeItem('login_success')
     window.location.href = 'index.html'
 })

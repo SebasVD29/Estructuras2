@@ -70,7 +70,7 @@ header {
   transform: scaleX(1);
 }
 
-.navigation .btnLogOut {
+.navigation .logout {
   width: 130 px;
   height: 50 px;
   background: transparent;
@@ -87,7 +87,7 @@ header {
   
 }
 
-.navigation .btnLogOut:hover{
+.navigation .logout:hover{
   background: #fff;
   color: #162938;
 
