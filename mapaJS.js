@@ -18,10 +18,10 @@ function initMap() {
 }
 
 function BusquedaDeLugar() {
-  console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
+  //console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
   const busquedaIncio = new google.maps.places.Autocomplete(inputInicio);
   const busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
-  console.log('Inicio',busquedaIncio  ,'Destino', busquedaFinal)
+  console.log('Inicio', busquedaIncio,'Destino', busquedaFinal)
 
   busquedaIncio.addListener("place_changed", function () {
     const place1 = busquedaIncio.getPlace();
@@ -172,45 +172,6 @@ document.addEventListener('DOMContentLoaded',  () => {
     
   });
 });
-
-
-/*
-
-fetch('/guardar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('datos', data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-
-
-    try {
-      const response = await fetch('/guardar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        alert('Datos guardados correctamente');
-        formulario.reset();
-      } else {
-        alert('Error al guardar los datos');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }*/ 
 
 //Cerrar Sesión
 /*router.get('/logout', (req, res) => {
