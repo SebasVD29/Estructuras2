@@ -109,6 +109,9 @@ function iniciarViaje() {
   
   btnPopUp.addEventListener('click', () => {
     wrapper.classList.add('active');
+
+    const nodoViajeInicio = document.getElementById('inputInicio').value;
+    const nodoViajeDestino = document.getElementById('inputFinal').value;
   
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 9,
