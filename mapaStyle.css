@@ -101,6 +101,9 @@ header {
   padding: 10px 20px; /* Añadir espaciado interno */
   font-size: 16px; /* Tamaño de fuente */
   cursor: pointer; /* Cambiar el cursor al pasar por encima */
+  border: 2px solid #fff;
+  outline: none;
+  border-radius: 6px;
 }
 
 .wrapper {
