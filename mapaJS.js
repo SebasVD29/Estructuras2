@@ -6,45 +6,7 @@ let map;
 let marker1, marker2;
 let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
 let usuario;
-
-
-fetch('/datos')
-.then((response) => response.json())
-.then((data) => {
-  // Manipula los datos recibidos y colócalos en el DOM del cliente
-  usuario = data;
-  console.log('1 Usuario',usuario[0]);
-
-  
-  //console.log('rol', usuario[0].rol);  
-})
-.catch((error) => {
-  console.error('Error al obtener los datos:', error);
-})
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  function mostrarContenidoSegunRol() {
-    
-    console.log('3 Usuario', usuario[0])
-
-    if(usuario[0].rol === 'conductor') {
-      // Mostrar el contenido para usuarios conductores
-      document.getElementById('rol-conduc-content').style.display = 'block';
-      
-      console.log("Contenido del conductor")
-      
-    }else if(usuario[0].rol === 'pasajero'){
-      // Mostrar el contenido para usuarios pasajeros
-      document.getElementById('rol-pasaj-content').style.display = 'block';
-      console.log("Contenido del pasajero")
-
-    }
-  };
-  document.addEventListener('DOMContentLoaded', mostrarContenidoSegunRol());
-});
-
-
+let ponderado, tiempo;
 
 function initMap() {
   map = new google.maps.Map(divMapa, {
@@ -56,8 +18,10 @@ function initMap() {
 }
 
 function BusquedaDeLugar() {
+  console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
   const busquedaIncio = new google.maps.places.Autocomplete(inputInicio);
   const busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
+  console.log('Inicio',busquedaIncio  ,'Destino', busquedaFinal)
 
   busquedaIncio.addListener("place_changed", function () {
     const place1 = busquedaIncio.getPlace();
@@ -153,10 +117,14 @@ function calcularPonderado() {
       .then((timeInMinutes) => {
         const weightedCost = calculateWeightedCost(distance, timeInMinutes);
 
+        const distancia = distance.toFixed(2);
+        ponderado = weightedCost.toFixed(2);
+        tiempo = timeInMinutes;
+        console.log('Distancia', distancia, 'Tiempo', tiempo, 'Ponderado',ponderado);
         // Mostrar resultados en la página
-        document.getElementById("distanceResult").textContent = distance.toFixed(2);
-        document.getElementById("timeResult").textContent = timeInMinutes;
-        document.getElementById("weightedCostResult").textContent = weightedCost.toFixed(2);
+        document.getElementById("distanceResult").textContent = distancia;
+        document.getElementById("timeResult").textContent = tiempo;
+        document.getElementById("weightedCostResult").textContent = ponderado;
       })
       .catch((error) => {
         console.error("Error:", error.message);
@@ -164,10 +132,85 @@ function calcularPonderado() {
   }
 }
 
+document.addEventListener('DOMContentLoaded',  () => {
+  //const boton = document.getElementById('boton');
+
+  document.getElementById('formPasajero').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const nodoViajeInicio = document.getElementById('inputInicio').value;
+    const nodoViajeDestino = document.getElementById('inputFinal').value;
+    const ponde  = ponderado;
+    const tiemp = tiempo;
+
+    const data = {
+      nodoViajeInicio: nodoViajeInicio,
+      nodoViajeDestino: nodoViajeDestino,
+      ponderado: ponde,
+      tiempo:  tiemp,
+    };
+    console.log('Datos del JS', data);
+
+    try {
+      fetch('/guardar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        alert('Datos guardados correctamente');
+        //formulario.reset();
+      } else {
+        alert('Error al guardar los datos');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    
+    
+  });
+});
+
+
+/*
+
+fetch('/guardar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('datos', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 
 
 
+    try {
+      const response = await fetch('/guardar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
+      if (response.ok) {
+        alert('Datos guardados correctamente');
+        formulario.reset();
+      } else {
+        alert('Error al guardar los datos');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }*/ 
 
 //Cerrar Sesión
 /*router.get('/logout', (req, res) => {

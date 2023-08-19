@@ -263,7 +263,7 @@ header {
 }
 
 .page {
- /* display: flex;*/
+  display: flex;
   margin-top: 75px;
   justify-content: left;
   align-items: normal;
@@ -311,7 +311,7 @@ header {
   border-radius: 5px;
 }
 
-.results h4 {
+.results label {
   margin-bottom: 10px;
 }
 

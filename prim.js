@@ -5,23 +5,7 @@ fetch("/datos-viajes")
   .then((data) => {
     viajes = data;
     console.log("Datos ", viajes);
-    /*
-    for (let n = 0; n < data.length; n++) {
-      nodos = {
-        id: data[n].idViaje,
-        nodoInicio: data[n].nodoViajeInicio,
-        nodoFinal: data[n].nodoViajeDestino,
-        arista: aristas,
-      };
-      aristas = {
-        id: data[n].idViaje,
-        ponderado: data[n].ponderado,
-        tiempo: data[n].tiempo,
-      };
-
-      console.log("nodos", nodos);
-      console.log("Aristas", aristas);
-    }*/
+  
     arbol();
   })
   .catch((error) => {

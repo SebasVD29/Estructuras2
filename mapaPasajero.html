@@ -22,73 +22,50 @@
       </nav>
     </header>
 
-    <div id="rol-conduc-content" style="display: none">
-      <div class="page">
-        <div class="sidebar">
+    <div class="page">
+      <div class="sidebar">
+        <form id="formPasajero">
           <h2 class="UveP">UveP</h2>
           <div class="links">
             <ul>
               <li>
-                <h5>Ingrese la posición Inicial</h5>
+                <label for="inputInicio">Ingrese la posición Inicial</label>
                 <input
                   type="text"
                   id="inputInicio"
                   placeholder="Ubicación de Inicio"
                 />
-              </li>
-            </ul>
-            <div class="results">
-              <h4>Resultados del Conductor:</h4>
-              <p>Distancia: <span id="distanceResult">___</span> metros</p>
-              <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
-              <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!--
-      <div id="rol-pasaj-content" style="display: none">
-        <div class="page">
-          <div class="sidebar">
-            <h2 class="UveP">UveP</h2>
-            <div class="links">
-            <ul>
-              <li>
-                <h5>Ingrese la posición Inicial</h5>
+                <label for="inputFinal">Ingrese la posición Final</label>
                 <input
-                type="text"
-                id="inputInicioP"
-                placeholder="Ubicación de Inicio"
-                />
-                <h5>Ingrese la posición Final</h5>
-                <input
-                type="text"
-                id="inputFinal"
-                placeholder="Ubicación Final"
+                  type="text"
+                  id="inputFinal"
+                  placeholder="Ubicación Final"
                 />
               </li>
             </ul>
 
-            
             <div class="results">
               <h4>Resultados del pasajero:</h4>
-              <p>Distancia: <span id="distanceResult">___</span> metros</p>
-              <p>Tiempo de llegada: <span id="timeResult">___</span> minutos</p>
-              <p>Costo ponderado: <span id="weightedCostResult">___</span></p>
+              <label for="distanceResult">Distancia: 
+                <span id="distanceResult">___</span> metros
+              </label>
+              <label for="timeResult">Tiempo de llegada: 
+                <span id="timeResult">___</span> minutos
+              </p>
+              <label for="weightedCostResult">Costo ponderado: 
+                <span id="weightedCostResult">___</span>
+              </label>
             </div>
           </div>
-        </div>
+          <button type="submit">Iniciar Viaje</button>
+        </form>
       </div>
     </div>
-  -->
-    
     <div id="map"></div>
-    
+
     <script src="mapaJS.js"></script>
     <script src="prim.js"></script>
-   
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   </body>
