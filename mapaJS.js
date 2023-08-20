@@ -139,6 +139,8 @@ fetch("/datos-viajes")
       //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
     });
   }
+
+ 
 function arbol() {
   /*const nodes = viajes.map((node) => ({ 
     id: node.idViaje, 
@@ -171,21 +173,29 @@ function obtenerLatLog(place) {
   return positionInicio;
 
 }
-function findClosestUnvisitedVertex(distances, visited) {
-  let minDistance = Number.MAX_VALUE;
-  let closestVertex = null;
 
-  for (const vertex in distances) {
-    if (!visited[vertex] && distances[vertex] < minDistance) {
-      minDistance = distances[vertex];
-      closestVertex = vertex;
+function encontrarVerticeCercano(distancias, visitados) {
+  let distanciaMinima = Number.MAX_VALUE;
+  let verticeMasCercano = null;
+
+  for (const vertice in distancias) {
+    const noVisitado = !visitados[vertice];
+    const distanciaActual = distancias[vertice];
+
+    if (noVisitado && distanciaActual < distanciaMinima) {
+      distanciaMinima = distanciaActual;
+      verticeMasCercano = vertice;
     }
   }
 
-  return closestVertex;
+  return verticeMasCercano;
 }
 
-function primAlgorithm(locations) {
+//
+
+
+//
+function algoritmoPrim(locations) {
   const vertexCount = locations.length;
   const distances = {};
   const visited = {};
@@ -198,7 +208,7 @@ function primAlgorithm(locations) {
   distances[0] = 0;
 
   for (let i = 0; i < vertexCount - 1; i++) {
-    const currentVertex = findClosestUnvisitedVertex(distances, visited);
+    const currentVertex = encontrarVerticeCercano(distances, visited);
     visited[currentVertex] = true;
 
     locations.forEach((location, index) => {
@@ -359,8 +369,8 @@ function iniciarViaje() {
         });
       });
 
-      // Calcular y mostrar la ruta más corta usando el algoritmo de Prim
-      const distances = primAlgorithm(locations);
+      //Ruta más corta------------------------
+      const distances = algoritmoPrim(locations);
 
       let previousVertex = 0;
       let totalDistance = 0;
@@ -370,25 +380,40 @@ function iniciarViaje() {
         console.log("Distancias", distances[i]);
         const line = new google.maps.Polyline({
           path: [locations[previousVertex], locations[i]],
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2,
+          strokeColor: '#0000FF',
+          strokeOpacity: 2.0,
+          strokeWeight: 3,
           map: map,
         });
         previousVertex = i;
       }
+
+       //Distancia total
+       document.getElementById('distanceResult').textContent = totalDistance.toFixed(2) ;
+
+    
     });
   }
 
 
 iniciarViaje();
 
+/*function calculateDistance(position1, position2, position3, position4) {
+// Verifica que todas las ubicaciones estén definidas antes de calcular la distancia
+if (position1 && position2 && position3 && position4) {
+  const distance = calculateDistance(position1, position2, position3, position4);
+  // Resto de tu código que utiliza la distancia calculada...
+} else {
+  console.error("Algunas de las ubicaciones no están definidas.");
+  // Aquí puedes mostrar un mensaje de error o tomar otra acción apropiada
+}
+}
+*/
 
 
+//
 
-
-
-// Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
+//Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
 function calculateDistance(position1, position2,position3,position4) {
   return google.maps.geometry.spherical.computeDistanceBetween(
     new google.maps.LatLng(position1.lat, position1.lng),
@@ -398,6 +423,9 @@ function calculateDistance(position1, position2,position3,position4) {
 
   );
 }
+
+
+//
 
 // Funcion para obtener la ruta y el tiempo de llegada entre dos puntos utilizando la API de Direcciones de Google Maps
 function calculateTimeOfArrival(position1, position2,position3,position4) {
