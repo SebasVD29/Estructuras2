@@ -2,13 +2,16 @@ const coordsCostaRica = { lat: 10.0000000, lng: -84.0000000 };
 const divMapa = document.getElementById('map');
 const inputInicio = document.getElementById('inputInicio');
 const inputFinal = document.getElementById('inputFinal');
+const inputParada = document.getElementById('inputParada');
+const inputsParada = document.getElementById('inputsParada');
 // archivo1.js
 
 let map;
 
 
-let marker1, marker2;
-let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
+let marker1, marker2,marker3,marker4;
+
+let position1, position2,position3,position4; // Variables para almacenar las coordenadas de la posición inicial y final.
 let usuario;
 let ponderado, tiempo;
 
@@ -42,6 +45,99 @@ fetch("/datos-viajes")
   
   
     BusquedaDeLugar();
+  }
+
+  function BusquedaDeLugar() {
+    console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
+    const busquedaIncio = new google.maps.places.Autocomplete(inputInicio);
+    const busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
+    const busquedaParada = new google.maps.places.Autocomplete(inputParada);
+    const busquedaSParada = new google.maps.places.Autocomplete(inputsParada);
+    console.log('Inicio',busquedaIncio  ,'Destino', busquedaFinal)
+  
+    busquedaIncio.addListener("place_changed", function () {
+      const place1 = busquedaIncio.getPlace();
+      if (!place1.geometry) {
+        return; // Si no se seleccionó una ubicación válida, salir de la función
+      }
+      map.setCenter(place1.geometry.location);
+      if (marker1) {
+        marker1.setMap(null); // Remover el marcador anterior, si existe
+      }
+      marker1 = new google.maps.Marker({
+        position: place1.geometry.location,
+        map: map,
+      });
+      // Almacenar las coordenadas de la posición inicial.
+      position1 = {
+        lat: place1.geometry.location.lat(),
+        lng: place1.geometry.location.lng(),
+      };
+      //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
+    })
+  
+    busquedaFinal.addListener("place_changed", function () {
+      const place2 = busquedaFinal.getPlace();
+      if (!place2.geometry) {
+        return; // Si no se seleccionó una ubicación válida, salir de la función
+      }
+      map.setCenter(place2.geometry.location);
+      if (marker2) {
+        marker2.setMap(null); // Remover el marcador anterior, si existe
+      }
+      marker2 = new google.maps.Marker({
+        position: place2.geometry.location,
+        map: map,
+      });
+      position2 = {
+        lat: place2.geometry.location.lat(),
+        lng: place2.geometry.location.lng(),
+      };
+      
+      //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
+    });
+    //
+    busquedaParada.addListener("place_changed", function () {
+      const place3 = busquedaParada.getPlace();
+      if (!place3.geometry) {
+        return; // Si no se seleccionó una ubicación válida, salir de la función
+      }
+      map.setCenter(place3.geometry.location);
+      if (marker3) {
+        marker3.setMap(null); // Remover el marcador anterior, si existe
+      }
+      marker3 = new google.maps.Marker({
+        position: place3.geometry.location,
+        map: map,
+      });
+      // Almacenar las coordenadas de la posición inicial.
+      position3 = {
+        lat: place3.geometry.location.lat(),
+        lng: place3.geometry.location.lng(),
+      };
+      //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
+    })
+  
+    busquedaSParada.addListener("place_changed", function () {
+      const place4 = busquedaSParada.getPlace();
+      if (!place4.geometry) {
+        return; // Si no se seleccionó una ubicación válida, salir de la función
+      }
+      map.setCenter(place4.geometry.location);
+      if (marker4) {
+        marker4.setMap(null); // Remover el marcador anterior, si existe
+      }
+      marker4 = new google.maps.Marker({
+        position: place4.geometry.location,
+        map: map,
+      });
+      position4 = {
+        lat: place4.geometry.location.lat(),
+        lng: place4.geometry.location.lng(),
+      };
+      
+      //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
+    });
   }
 function arbol() {
   /*const nodes = viajes.map((node) => ({ 
@@ -120,7 +216,7 @@ function primAlgorithm(locations) {
 function iniciarViaje() {
   const btnPopUp = document.querySelector('.btnViaje');
   //const wrapper = document.getElementById('wrapper'); // Agrega la referencia al elemento 'wrapper'
-  const coordsCostaRica = { lat: 9.7489, lng: -83.7534 }; // Coordenadas de Costa Rica o cualquier otro centro de referencia
+  //const coordsCostaRica = { lat: 9.7489, lng: -83.7534 }; // Coordenadas de Costa Rica o cualquier otro centro de referencia
 
   btnPopUp.addEventListener('click', () => {
 
@@ -191,8 +287,8 @@ function iniciarViaje() {
         };
 
 
-
-
+      
+      /*
 
         service = new google.maps.places.PlacesService(map);
 
@@ -234,20 +330,27 @@ function iniciarViaje() {
 
         });
 
-
+*/
 
       }}
+      locations = [
 
-      //const locations = [{obtenerLatLog(place)}];
+        {lat: position1.lat, lng: position1.lng},
+  
+        {lat: position2.lat, lng: position2.lng},
+
+        {lat: position3.lat, lng: position3.lng},
+  
+        {lat: position4.lat, lng: position4.lng}
+  
+     
+  
+        ];
+       //locations = [{position1,position2}];
 
       //nodoViajeInicio = document.getElementById('inputInicio').value;
       //const nodoViajeDestino = document.getElementById('inputFinal').value];
-
-      const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 9,
-        center: coordsCostaRica,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-      });
+      console.log("locations",locations);
 
       locations.forEach((location) => {
         new google.maps.Marker({
@@ -283,68 +386,27 @@ iniciarViaje();
 
 
 
-function BusquedaDeLugar() {
-  console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
-  const busquedaIncio = new google.maps.places.Autocomplete(inputInicio);
-  const busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
-  console.log('Inicio',busquedaIncio  ,'Destino', busquedaFinal)
 
-  busquedaIncio.addListener("place_changed", function () {
-    const place1 = busquedaIncio.getPlace();
-    if (!place1.geometry) {
-      return; // Si no se seleccionó una ubicación válida, salir de la función
-    }
-    map.setCenter(place1.geometry.location);
-    if (marker1) {
-      marker1.setMap(null); // Remover el marcador anterior, si existe
-    }
-    marker1 = new google.maps.Marker({
-      position: place1.geometry.location,
-      map: map,
-    });
-    // Almacenar las coordenadas de la posición inicial.
-    position1 = {
-      lat: place1.geometry.location.lat(),
-      lng: place1.geometry.location.lng(),
-    };
-    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
-  })
-
-  busquedaFinal.addListener("place_changed", function () {
-    const place2 = busquedaFinal.getPlace();
-    if (!place2.geometry) {
-      return; // Si no se seleccionó una ubicación válida, salir de la función
-    }
-    map.setCenter(place2.geometry.location);
-    if (marker2) {
-      marker2.setMap(null); // Remover el marcador anterior, si existe
-    }
-    marker2 = new google.maps.Marker({
-      position: place2.geometry.location,
-      map: map,
-    });
-    position2 = {
-      lat: place2.geometry.location.lat(),
-      lng: place2.geometry.location.lng(),
-    };
-    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
-  });
-}
 
 // Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
-function calculateDistance(position1, position2) {
+function calculateDistance(position1, position2,position3,position4) {
   return google.maps.geometry.spherical.computeDistanceBetween(
     new google.maps.LatLng(position1.lat, position1.lng),
-    new google.maps.LatLng(position2.lat, position2.lng)
+    new google.maps.LatLng(position2.lat, position2.lng),
+    //new google.maps.LatLng(position3.lat, position3.lng),
+    //new google.maps.LatLng(position4.lat, position4.lng)
+
   );
 }
 
 // Funcion para obtener la ruta y el tiempo de llegada entre dos puntos utilizando la API de Direcciones de Google Maps
-function calculateTimeOfArrival(position1, position2) {
+function calculateTimeOfArrival(position1, position2,position3,position4) {
   const directionsService = new google.maps.DirectionsService();
 
   const request = {
     origin: new google.maps.LatLng(position1.lat, position1.lng),
+    parada1: new google.maps.LatLng(position3.lat, position3.lng), 
+    parada2: new google.maps.LatLng(position4.lat, position4.lng),
     destination: new google.maps.LatLng(position2.lat, position2.lng),
     travelMode: google.maps.TravelMode.DRIVING,
   };
@@ -375,9 +437,9 @@ function calculateWeightedCost(distance, timeInMinutes) {
 
 // Funcion para calcular y mostrar el costo ponderado en la página
 function calcularPonderado() {
-  if (marker1 && marker2) {
-    const distance = calculateDistance(position1, position2);
-    const timeInMinutesPromise = calculateTimeOfArrival(position1, position2);
+  if (marker1 && marker2 && marker3 && marker4) {
+    const distance = calculateDistance(position1, position2,position3,position4);
+    const timeInMinutesPromise = calculateTimeOfArrival(position1, position2,position3,position4);
 
     timeInMinutesPromise
       .then((timeInMinutes) => {
