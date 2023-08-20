@@ -1,4 +1,6 @@
-var  datosBD;
+let datosBD;
+let positionInicio, positionDestino; // Variables para almacenar las coordenadas de la posición inicial y final.
+let ponderadoEntreViajes, tiempoEntreViajes;
 //var nodos, aristas;
 fetch("/datos-viajes")
   .then((response) => response.json())
@@ -13,11 +15,6 @@ fetch("/datos-viajes")
   });
 
 function arbol() {
-  
-  /*const nodes = viajes.map((node) => ({
-    id: node.idViaje,
-    name: node.nodoViajeInicio,
-  }));*/
   const viajes = datosBD.map((viaje) => ({
     id: viaje.idViaje,
     from: viaje.nodoViajeInicio,
@@ -26,29 +23,33 @@ function arbol() {
   }));
 
   const tree = primAlgorithm(viajes);
-  console.log("Nodes:", [...tree.nodes]);
-  console.log("Edges:", tree.edges);
+  //console.log("Nodes:", [...tree.viajes]);
+  //console.log("Edges:", tree.viajes);
 }
 
-function primAlgorithm(edges) {
+function primAlgorithm(viajes) {
   const nodes = new Set();
-  edges.forEach((edge) => {
+  
+  viajes.forEach((edge) => {
     nodes.add(edge.from);
     nodes.add(edge.to);
   });
+ // console.log("nodos", nodes, nodes.size);
 
-  const startingNode = edges[0].from;
-
+  const startingNode = viajes[0].from;
+  
   const tree = {
     nodes: new Set([startingNode]),
-    edges: [],
+    viajes: [],
   };
 
+  BusquedaDeLugar(viajes,nodes);
+
   while (tree.nodes.size < nodes.size) {
-    let minEdge = null;  
+    let minEdge = null;
     let minWeight = Infinity;
 
-    for (const edge of edges) {
+    for (const edge of viajes) {
       if (
         (tree.nodes.has(edge.from) && !tree.nodes.has(edge.to)) ||
         (tree.nodes.has(edge.to) && !tree.nodes.has(edge.from))
@@ -61,7 +62,7 @@ function primAlgorithm(edges) {
     }
 
     if (minEdge) {
-      tree.edges.push(minEdge);
+      tree.viajes.push(minEdge);
       tree.nodes.add(minEdge.from);
       tree.nodes.add(minEdge.to);
     }
@@ -70,10 +71,52 @@ function primAlgorithm(edges) {
   return tree;
 }
 
-let position1, position2; // Variables para almacenar las coordenadas de la posición inicial y final.
-let ponderado, tiempo;
+function BusquedaDeLugar(viajes, nodes) {
+  let viajeDestino, viajeSiguienteInicio;
+ // console.log("Size", nodes.size);
 
-function BusquedaDeLugar(inputInicio,inputFinal) {
+
+  for(let n = 0; n < nodes.size; n++) {
+    if (viajes[n] == undefined){
+      break;
+    }
+    //console.log( "Primero", viajes[n]);
+    for (let m=0; m < nodes.size;m++) {
+
+      if(viajes[n]===viajes[m]){
+        //console.log('igualdad');
+        m=n+1;       
+      }
+      
+      if (viajes[m] == undefined){
+        viajeSiguienteInicio = viajes[n].from
+        break;
+      }
+      viajeDestino = viajes[n].to;
+      viajeSiguienteInicio = viajes[m].from;
+      //console.log("Siguiente", viajes[m]);
+      console.log("Inicio", viajeDestino, "Destino", viajeSiguienteInicio);
+      
+      
+    } 
+   
+  }
+
+  //const busquedaIncio = new google.maps.places.Autocomplete(viaje);
+  //const busquedaFinal = new google.maps.places.Autocomplete(siguiente);
+  
+}
+/*
+
+ 
+
+      console.log('m', m,"Siguiente", viajes[m]);
+      
+
+   
+      
+
+function BusquedaDeLugar() {
   //console.log('Inicio',inputInicio.value  ,'Destino', inputFinal.value)
   const busquedaIncio = new google.maps.places.Autocomplete(inputInicio);
   const busquedaFinal = new google.maps.places.Autocomplete(inputFinal);
@@ -85,11 +128,11 @@ function BusquedaDeLugar(inputInicio,inputFinal) {
       return; // Si no se seleccionó una ubicación válida, salir de la función
     }
     
-    position1 = {
+    positionInicio = {
       lat: place1.geometry.location.lat(),
       lng: place1.geometry.location.lng(),
     };
-    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
+   // calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación inicial
   })
 
   busquedaFinal.addListener("place_changed", function () {
@@ -97,14 +140,14 @@ function BusquedaDeLugar(inputInicio,inputFinal) {
     if (!place2.geometry) {
       return; // Si no se seleccionó una ubicación válida, salir de la función
     }
-    position2 = {
+    positionDestino = {
       lat: place2.geometry.location.lat(),
       lng: place2.geometry.location.lng(),
     };
-    calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
+    //calcularPonderado(); // Llamar a calcularPonderado después de seleccionar la ubicación final
   });
 }
-
+/*
 // Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
 function calculateDistance(position1, position2) {
   return google.maps.geometry.spherical.computeDistanceBetween(
@@ -170,10 +213,4 @@ function calcularPonderado() {
         console.error("Error:", error.message);
       });
   }
-}
-
-
-
-
-
-
+}*/
