@@ -25,6 +25,7 @@ function BusquedaDeLugar() {
 
   busquedaIncio.addListener("place_changed", function () {
     const place1 = busquedaIncio.getPlace();
+    console.log('place1', place1);
     if (!place1.geometry) {
       return; // Si no se seleccionó una ubicación válida, salir de la función
     }
@@ -46,6 +47,7 @@ function BusquedaDeLugar() {
 
   busquedaFinal.addListener("place_changed", function () {
     const place2 = busquedaFinal.getPlace();
+    console.log('place2', place2);
     if (!place2.geometry) {
       return; // Si no se seleccionó una ubicación válida, salir de la función
     }

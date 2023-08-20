@@ -1,4 +1,8 @@
+const coordsCostaRica = { lat: 10.0, lng: -84.0 };
+const divMapa = document.getElementById("map");
 let datosBD;
+let map;
+let service;
 let positionInicio, positionDestino; // Variables para almacenar las coordenadas de la posición inicial y final.
 let ponderadoEntreViajes, tiempoEntreViajes;
 //var nodos, aristas;
@@ -13,6 +17,15 @@ fetch("/datos-viajes")
   .catch((error) => {
     console.error("Error al obtener los datos:", error);
   });
+
+function initMap() {
+  map = new google.maps.Map(divMapa, {
+    center: coordsCostaRica,
+    zoom: 13,
+  });
+
+  BusquedaDeLugar();
+}
 
 function arbol() {
   const viajes = datosBD.map((viaje) => ({
@@ -29,21 +42,21 @@ function arbol() {
 
 function primAlgorithm(viajes) {
   const nodes = new Set();
-  
+
   viajes.forEach((edge) => {
     nodes.add(edge.from);
     nodes.add(edge.to);
   });
- // console.log("nodos", nodes, nodes.size);
+  // console.log("nodos", nodes, nodes.size);
 
   const startingNode = viajes[0].from;
-  
+
   const tree = {
     nodes: new Set([startingNode]),
     viajes: [],
   };
 
-  BusquedaDeLugar(viajes,nodes);
+  BusquedaDeLugar(viajes, nodes);
 
   while (tree.nodes.size < nodes.size) {
     let minEdge = null;
@@ -73,39 +86,71 @@ function primAlgorithm(viajes) {
 
 function BusquedaDeLugar(viajes, nodes) {
   let viajeDestino, viajeSiguienteInicio;
- // console.log("Size", nodes.size);
 
 
-  for(let n = 0; n < nodes.size; n++) {
-    if (viajes[n] == undefined){
+  for (let n = 0; n < nodes.size; n++) {
+    if (viajes[n] == undefined) {
       break;
     }
-    //console.log( "Primero", viajes[n]);
-    for (let m=0; m < nodes.size;m++) {
-
-      if(viajes[n]===viajes[m]){
-        //console.log('igualdad');
-        m=n+1;       
+    
+    for (let m = 0; m < nodes.size; m++) {
+      if (viajes[n] === viajes[m]) {
+        m = n + 1;
       }
-      
-      if (viajes[m] == undefined){
-        viajeSiguienteInicio = viajes[n].from
+
+      if (viajes[m] == undefined) {
+        viajeSiguienteInicio = viajes[n].from;
         break;
       }
       viajeDestino = viajes[n].to;
       viajeSiguienteInicio = viajes[m].from;
+      console.log("Inicio 1 ", viajeDestino, "Destino", viajeSiguienteInicio);
       //console.log("Siguiente", viajes[m]);
-      console.log("Inicio", viajeDestino, "Destino", viajeSiguienteInicio);
-      
-      
-    } 
-   
+      const request1 = {
+        query: viajeDestino,
+        fields: ["name", "geometry"],
+      };
+      const request2 = {
+        query: viajeSiguienteInicio,
+        fields: ["name", "geometry"],
+      };
+
+      service = new google.maps.places.PlacesService(map);
+
+      service.findPlaceFromQuery(request1, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+          for (let i = 0; i < results.length; i++) {
+            obtenerLatLog(results[i]);
+          }
+        }
+      });
+      service.findPlaceFromQuery(request2, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+          for (let i = 0; i < results.length; i++) {
+            obtenerLatLog(results[i]);
+          }
+        }
+      });
+    }
   }
+
+  
 
   //const busquedaIncio = new google.maps.places.Autocomplete(viaje);
   //const busquedaFinal = new google.maps.places.Autocomplete(siguiente);
-  
 }
+
+function obtenerLatLog(place) {
+  if (!place.geometry || !place.geometry.location) return;
+
+  positionInicio = {
+    lat: place.geometry.location.lat(),
+    lng: place.geometry.location.lng(),
+  };
+  console.log("posicion lat", positionInicio.lat, "posicion lng",positionInicio.lng);
+  return positionInicio;
+}
+
 /*
 
  
