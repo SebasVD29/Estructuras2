@@ -1,6 +1,6 @@
 var viajes;
-const inputInicio = document.getElementById('inputInicio');
-const inputFinal = document.getElementById('inputFinal');
+//inputInicio = document.getElementById('inputInicio');
+//inputFinal = document.getElementById('inputFinal');
 //var nodos, aristas;
 fetch("/datos-viajes")
   .then((response) => response.json())
@@ -62,6 +62,13 @@ function primAlgorithm(nodes, edges) {
   return selectedEdges;
 }
 */
+// Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
+function calculateDistance(position1, position2) {
+  return google.maps.geometry.spherical.computeDistanceBetween(
+    new google.maps.LatLng(position1.lat, position1.lng),
+    new google.maps.LatLng(position2.lat, position2.lng)
+  );
+}
 function findClosestUnvisitedVertex(distances, visited) {
   let minDistance = Number.MAX_VALUE;
   let closestVertex = null;
@@ -106,11 +113,11 @@ function primAlgorithm(locations) {
 }
 function iniciarViaje() {
   const btnPopUp = document.querySelector('.btnViaje');
-  const wrapper = document.getElementById('wrapper'); // Agrega la referencia al elemento 'wrapper'
+  //const wrapper = document.getElementById('wrapper'); // Agrega la referencia al elemento 'wrapper'
   const coordsCostaRica = { lat: 9.7489, lng: -83.7534 }; // Coordenadas de Costa Rica o cualquier otro centro de referencia
   
   btnPopUp.addEventListener('click', () => {
-    wrapper.classList.add('active');
+    //wrapper.classList.add('active');
 
     const locations = [{inputInicio,inputFinal}];
       //nodoViajeInicio = document.getElementById('inputInicio').value;
@@ -137,6 +144,7 @@ function iniciarViaje() {
 
     for (let i = 1; i < locations.length; i++) {
       totalDistance += distances[i];
+      console.log("Distancias",distances[i]);
       const line = new google.maps.Polyline({
         path: [locations[previousVertex], locations[i]],
         strokeColor: '#FF0000',
