@@ -453,15 +453,15 @@ function iniciarViaje() {
        // Agrega marcadores en las ubicaciones definidas
       console.log("locations",locations);
 
-      locations.forEach((location) => {
-        new google.maps.Marker({
-          position: location,
-          map: map,
-        });
+    locations.forEach((location) => {
+      new google.maps.Marker({
+        position: location,
+        map: map,
       });
+    });
 
-      //Ruta más corta------------------------
-      const distances = algoritmoPrim(locations);
+    //Ruta más corta------------------------
+    const distances = algoritmoPrim(locations);
 
       // Inicializa variables para rastrear el vértice anterior y la distancia total
       let previousVertex = 0;
@@ -500,42 +500,21 @@ function iniciarViaje() {
 // Inicia la función 'iniciarViaje'
 iniciarViaje();
 
-/*function calculateDistance(position1, position2, position3, position4) {
-// Verifica que todas las ubicaciones estén definidas antes de calcular la distancia
-if (position1 && position2 && position3 && position4) {
-  const distance = calculateDistance(position1, position2, position3, position4);
-  // Resto de tu código que utiliza la distancia calculada...
-} else {
-  console.error("Algunas de las ubicaciones no están definidas.");
-  // Aquí puedes mostrar un mensaje de error o tomar otra acción apropiada
-}
-}
-*/
-
-
-//
-
 //Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
-function calculateDistance(position1, position2,position3,position4) {
+function calculateDistance(position1, position2, position3, position4) {
   return google.maps.geometry.spherical.computeDistanceBetween(
     new google.maps.LatLng(position1.lat, position1.lng),
-    new google.maps.LatLng(position2.lat, position2.lng),
-    //new google.maps.LatLng(position3.lat, position3.lng),
-    //new google.maps.LatLng(position4.lat, position4.lng)
-
+    new google.maps.LatLng(position2.lat, position2.lng)
   );
 }
 
-
-//
-
 // Funcion para obtener la ruta y el tiempo de llegada entre dos puntos utilizando la API de Direcciones de Google Maps
-function calculateTimeOfArrival(position1, position2,position3,position4) {
+function calculateTimeOfArrival(position1, position2, position3, position4) {
   const directionsService = new google.maps.DirectionsService();
 
   const request = {
     origin: new google.maps.LatLng(position1.lat, position1.lng),
-    parada1: new google.maps.LatLng(position3.lat, position3.lng), 
+    parada1: new google.maps.LatLng(position3.lat, position3.lng),
     parada2: new google.maps.LatLng(position4.lat, position4.lng),
     destination: new google.maps.LatLng(position2.lat, position2.lng),
     travelMode: google.maps.TravelMode.DRIVING,
@@ -560,7 +539,8 @@ function calculateWeightedCost(distance, timeInMinutes) {
   const timeWeight = 0.5;
 
   const distanceInKm = distance / 1000;
-  const weightedCost = distanceInKm * distanceWeight + timeInMinutes * timeWeight;
+  const weightedCost =
+    distanceInKm * distanceWeight + timeInMinutes * timeWeight;
 
   return weightedCost;
 }
@@ -568,8 +548,18 @@ function calculateWeightedCost(distance, timeInMinutes) {
 // Funcion para calcular y mostrar el costo ponderado en la página
 function calcularPonderado() {
   if (marker1 && marker2 && marker3 && marker4) {
-    const distance = calculateDistance(position1, position2,position3,position4);
-    const timeInMinutesPromise = calculateTimeOfArrival(position1, position2,position3,position4);
+    const distance = calculateDistance(
+      position1,
+      position2,
+      position3,
+      position4
+    );
+    const timeInMinutesPromise = calculateTimeOfArrival(
+      position1,
+      position2,
+      position3,
+      position4
+    );
 
     timeInMinutesPromise
       .then((timeInMinutes) => {
@@ -578,7 +568,14 @@ function calcularPonderado() {
         const distancia = distance.toFixed(2);
         ponderado = weightedCost.toFixed(2);
         tiempo = timeInMinutes;
-        console.log('Distancia', distancia, 'Tiempo', tiempo, 'Ponderado',ponderado);
+        console.log(
+          "Distancia",
+          distancia,
+          "Tiempo",
+          tiempo,
+          "Ponderado",
+          ponderado
+        );
         // Mostrar resultados en la página
         document.getElementById("distanceResult").textContent = distancia;
         document.getElementById("timeResult").textContent = tiempo;
@@ -590,47 +587,47 @@ function calcularPonderado() {
   }
 }
 
-document.addEventListener('DOMContentLoaded',  () => {
+document.addEventListener("DOMContentLoaded", () => {
   //const boton = document.getElementById('boton');
 
-  document.getElementById('formPasajero').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nodoViajeInicio = document.getElementById('inputInicio').value;
-    const nodoViajeDestino = document.getElementById('inputFinal').value;
-    const ponde  = ponderado;
-    const tiemp = tiempo;
+  document
+    .getElementById("formPasajero")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const nodoViajeInicio = document.getElementById("inputInicio").value;
+      const nodoViajeDestino = document.getElementById("inputFinal").value;
+      const ponde = ponderado;
+      const tiemp = tiempo;
 
-    const data = {
-      nodoViajeInicio: nodoViajeInicio,
-      nodoViajeDestino: nodoViajeDestino,
-      ponderado: ponde,
-      tiempo:  tiemp,
-    };
-    console.log('Datos del JS', data);
+      const data = {
+        nodoViajeInicio: nodoViajeInicio,
+        nodoViajeDestino: nodoViajeDestino,
+        ponderado: ponde,
+        tiempo: tiemp,
+      };
+      console.log("Datos del JS", data);
 
-    try {
-      fetch('/guardar', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      try {
+        fetch("/guardar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      if (response.ok) {
-        alert('Datos guardados correctamente');
-        //formulario.reset();
-      } else {
-        alert('Error al guardar los datos');
+        if (response.ok) {
+          alert("Datos guardados correctamente");
+        } else {
+          alert("Error al guardar los datos");
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    
-    
-  });
+    });
 });
 
+//const logout = document.querySelector("#logout");
 
 /*
 
@@ -687,6 +684,7 @@ fetch('/guardar', {
 //--CERRAR SESIÓN------------------------
 
 // Selecciona el elemento con el ID 'logout'
+
 const logout = document.querySelector('#logout')
 // Agrega un evento de clic al elemento 'logout'
 logout.addEventListener('click', ()=>{
