@@ -120,7 +120,7 @@ function BusquedaDeLugar(viajes, nodes) {
 
       cualcularLatLng(nodoViaje, nodoViajeSiguiente);
     }
-    m=+2;
+    m=n+1;
   }
 }
 
