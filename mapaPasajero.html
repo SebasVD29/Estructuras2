@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="mapaStyle.css" />
+
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://maps.googleapis.com https://code.iconify.design;"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navigation">
+        <a href="index.html">Inicio</a>
+        <a href="mapa.html">Mapa</a>
+        <a href="#">Sobre Nosotros</a>
+        <a href="#">Servicios</a>
+        <button id="logout">LogOut</button>
+        <!--class ="btnLogout-popup">-->
+      </nav>
+    </header>
+
+    <div class="page">
+      <div class="sidebar">
+        <form id="formPasajero">
+          <h2 class="UveP">UveP</h2>
+          <div class="links">
+            <ul>
+              <li>
+                <label for="inputInicio">Ingrese la posición Inicial</label>
+                <input
+                  type="text"
+                  id="inputInicio"
+                  placeholder="Ubicación de Inicio"
+                />
+                <label for="inputFinal">Ingrese la posición Final</label>
+                <input
+                  type="text"
+                  id="inputFinal"
+                  placeholder="Ubicación Final"
+                />
+                <label for="inputParada">Ingrese la parada deseada</label>
+                <input
+                  type="text"
+                  id="inputParada"
+                  placeholder="Ubicación de Parada"
+                />
+                <label for="segundaParada">Ingrese la parada deseada</label>
+                <input
+                  type="text"
+                  id="inputsParada"
+                  placeholder="Ubicación de Parada"
+                />
+              </li>
+            </ul>
+
+            <div class="results">
+              <h4>Resultados del pasajero:</h4>
+              <label for="distanceResult">Distancia: 
+                <span id="distanceResult">___</span> metros
+              </label>
+              <label for="timeResult">Tiempo de llegada: 
+                <span id="timeResult">___</span> minutos
+              </p>
+
+            </div>
+          </div>
+          <button class="btnViaje">Iniciar Viaje</button>
+        </form>
+      </div>
+    </div>
+    <div id="map"></div>
+
+    <script src="mapaJS.js"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry&sensor=false"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  </body>
+</html>
+
+<!-- Mauricio->AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places-->
+<!-- Ruth ->AIzaSyAeGJJ9P6X06vBoCxrkai1hw28SylTTzsY&callback=initMap&libraries=places-->
