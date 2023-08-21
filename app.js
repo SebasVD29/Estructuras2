@@ -168,45 +168,38 @@ app.post("/registro", (req, res) => {
   });
 });
 
-/*app.get("/datos", (req, res) => {
-  // Supongamos que tienes una variable llamada "miVariable" con los datos que deseas enviar al cliente
-  Usuario;
-  //console.log(Usuario);
-  // Envía la variable como respuesta en formato JSON
-  res.json(Usuario);
-});*/
-
 app.use(bodyParser.json());
 
 app.post("/guardar", (req, res) => {
   //console.log('Req Viaje', req.body, 'Metodo', req.method, 'headers',req.headers)
-  const { nodoViajeInicio, nodoViajeDestino, ponderado, tiempo } = req.body;
-  console.log(
-    "Datos del NodeJS Nodo Inicio",
-    nodoViajeInicio,
-    "Nodo Destino",
-    nodoViajeDestino,
-    "Tiempo",
-    tiempo,
-    "Ponderado",
-    ponderado
-  );
+  const { nodoViaje } = req.body;
+  console.log("Datos del NodeJS Nodo Inicio", nodoViaje);
 
-  const query =
-    "INSERT INTO viajes (nodoViajeInicio, nodoViajeDestino,ponderado,tiempo) VALUES (?, ?, ?, ?)";
-  db.query(
-    query,
-    [nodoViajeInicio, nodoViajeDestino, ponderado, tiempo],
-    (error, results) => {
-      console.log('Resultados', results);
-      if (error) {
-        console.error("Error al guardar los datos NodeJS:", error);
-        res.status(500).json({ error: "Error de servidorNodeJS" });
-      } else {
-        res.sendStatus(200);
-      }
+  const checkNodoQuery = "SELECT * FROM viajes WHERE nodoViaje = ?";
+  db.query(checkNodoQuery, [nodoViaje], (err, result) => {
+    if (err) {
+      throw err;
     }
-  );
+
+    if (result.length > 0) {
+      null;
+    } else {
+      const query = "INSERT INTO viajes (nodoViaje) VALUES (?)";
+      db.query(
+        query,
+        [nodoViaje,],
+        (error, results) => {
+          //console.log("Resultados", results);
+          if (error) {
+            console.error("Error al guardar los datos NodeJS:", error);
+            res.status(500).json({ error: "Error de servidorNodeJS" });
+          } else {
+            res.sendStatus(200);
+          }
+        }
+      );
+    }
+  });
 });
 
 app.get("/datos-viajes", (req, res) => {
@@ -227,7 +220,4 @@ app.listen(port, () => {
   console.log(`Servidor Echo escuchando en http://localhost:${port}`);
 });
 
-/*const nodoViajeInicio = req.body;
-  const nodoViajeDestino = req.body;
-  const ponderado = req.body;
-  const tiempo = req.body;*/
+

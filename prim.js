@@ -4,9 +4,10 @@ let datosBD;
 let map;
 let service;
 let entreViaje;
-let positionInicio, positionDestino; // Variables para almacenar las coordenadas de la posición inicial y final.
+let positionInicio, positionSiguiente; // Variables para almacenar las coordenadas de la posición inicial y final.
 let ponderadoEntreViajes, tiempoEntreViajes;
 let tiempo, ponderado;
+let minInicio = Infinity;
 
 fetch("/datos-viajes")
   .then((response) => response.json())
@@ -32,9 +33,8 @@ function initMap() {
 function arbol() {
   const viajes = datosBD.map((viaje) => ({
     id: viaje.idViaje,
-    from: viaje.nodoViajeInicio,
-    to: viaje.nodoViajeDestino,
-    weight: viaje.ponderado,
+    nodo: viaje.nodoViaje,
+    
   }));
   entreViajes(viajes);
 }
@@ -43,51 +43,100 @@ function entreViajes(viajes) {
   const nodes = new Set();
 
   viajes.forEach((edge) => {
-    nodes.add(edge.from);
-    nodes.add(edge.to);
+    nodes.add(edge.nodo);
+    
   });
+
+  // console.log("nodos", nodes);
 
   BusquedaDeLugar(viajes, nodes);
 }
 
-function BusquedaDeLugar(viajes, nodes) {
-  let viajeDestino, viajeSiguienteInicio;
+function iniciarViaje(viajeDestino, viajeSiguiente) {
+  locations = [
+    { lat: viajeDestino.lat, lng: viajeDestino.lng },
+    { lat: viajeSiguiente.lat, lng: viajeSiguiente.lng },
+  ];
+ /* console.log(
+    "Viaje",
+    viajeDestino,
+    "Viaje Siguiente",
+    viajeSiguiente
+  );*/
 
-  for (let n = 0; n < nodes.size; n++) {
-    if (viajes[n] == undefined) {
-      break;
-    }
+  //console.log(locations);
+  locations.forEach((location) => {
+    new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+  });
 
-    for (let m = 0; m < nodes.size; m++) {
-      if (viajes[n] === viajes[m]) {
-        m = n + 1;
-      }
-
-      if (viajes[m] == undefined) {
-        viajeSiguienteInicio = viajes[n].from;
-        break;
-      }
-      viajeDestino = viajes[n].to;
-      viajeSiguienteInicio = viajes[m].from;
-      //console.log("Inicio ", viajeDestino, "Destino", viajeSiguienteInicio);
-      cualcularLatLng(viajes, viajeDestino, viajeSiguienteInicio);
+  const distances = algoritmoPrim(locations);
+  //console.log(distances);
+  let previousVertex = 0;
+  let totalDistance = 0;
+  let minimoPeso = Infinity;
+  for (let i = 1; i < locations.length; i++) {
+    if (distances[i] < minimoPeso) {
+      //console.log("Distancias", distances[i]);
+      const line = new google.maps.Polyline({
+        path: [locations[previousVertex], locations[i]],
+        strokeColor: "#0000FF",
+        strokeOpacity: 2.0,
+        strokeWeight: 3,
+        map: map,
+      });
+      minimoPeso = distances[i];
+      previousVertex = i;
     }
   }
 }
 
-function cualcularLatLng(viajes, viajeDestino, viajeSiguienteInicio) {
+function BusquedaDeLugar(viajes, nodes) {
+  let nodoViaje, nodoViajeSiguiente;
+  let m = 0;
+
+  for (let n = 0; n < nodes.size; n++) {
+    for (m; m < nodes.size; m++) {
+      if (viajes[m] == undefined) {
+        viajeSiguienteInicio = viajes[n].nodo;
+        break;
+      }
+      if (viajes[n] === viajes[m]) {
+        m = n + 1;
+      }
+
+      nodoViaje = viajes[n].nodo;
+      nodoViajeSiguiente = viajes[m].nodo;
+      
+      console.log(
+        "Viaje ",
+        nodoViaje,
+
+        "Viaje Siuientes",
+        nodoViajeSiguiente
+      );
+
+      cualcularLatLng(nodoViaje, nodoViajeSiguiente);
+    }
+    m=+2;
+  }
+}
+
+function cualcularLatLng(nodoViaje, nodoViajeSiguiente) {
+  let distancia;
+
   const request1 = {
-    query: viajeDestino,
+    query: nodoViaje,
     fields: ["name", "geometry"],
   };
   const request2 = {
-    query: viajeSiguienteInicio,
+    query: nodoViajeSiguiente,
     fields: ["name", "geometry"],
   };
 
-  //console.log("Inicio ", request1, "Destino", request2);
   service = new google.maps.places.PlacesService(map);
-
   service.findPlaceFromQuery(request1, (results1, status1) => {
     service.findPlaceFromQuery(request2, (results2, status2) => {
       if (
@@ -98,6 +147,7 @@ function cualcularLatLng(viajes, viajeDestino, viajeSiguienteInicio) {
       ) {
         for (let q = 0; q < results1.length; q++) {
           if (!results1[q].geometry || !results1[q].geometry.location) return;
+
           for (let i = 0; i < results2.length; i++) {
             if (!results2[i].geometry || !results2[i].geometry.location) return;
 
@@ -106,14 +156,27 @@ function cualcularLatLng(viajes, viajeDestino, viajeSiguienteInicio) {
               lng: results1[q].geometry.location.lng(),
             };
 
-            positionDestino = {
+            positionSiguiente = {
               lat: results2[i].geometry.location.lat(),
               lng: results2[i].geometry.location.lng(),
             };
-            //console.log("Inicio ", viajeDestino, "Destino", viajeSiguienteInicio);
-            calcularPonderado(viajes, viajeDestino, viajeSiguienteInicio);
           }
         }
+      }
+      distancia = [calculateDistance(positionInicio, positionSiguiente)];
+      
+      
+
+      //console.log("a", distancia <minInicio);
+      if (distancia < minInicio) {
+        /*console.log(
+          "Viaje",
+          nodoViaje,
+          "Viaje Siguiente",
+          nodoViajeSiguiente
+        );*/
+        iniciarViaje(positionInicio, positionSiguiente);
+        minInicio = distancia;
       }
     });
   });
@@ -130,14 +193,14 @@ function calculateDistance(position1, position2) {
 }
 
 // Funcion para obtener la ruta y el tiempo de llegada entre dos puntos utilizando la API de Direcciones de Google Maps
-function calculateTimeOfArrival(positionInicio, positionDestino) {
+function calculateTimeOfArrival(positionInicio, positionSiguiente) {
   const directionsService = new google.maps.DirectionsService();
 
   const request = {
     origin: new google.maps.LatLng(positionInicio.lat, positionInicio.lng),
     destination: new google.maps.LatLng(
-      positionDestino.lat,
-      positionDestino.lng
+      positionSiguiente.lat,
+      positionSiguiente.lng
     ),
     travelMode: google.maps.TravelMode.DRIVING,
   };
@@ -167,99 +230,48 @@ function calculateWeightedCost(distance, timeInMinutes) {
   return weightedCost;
 }
 
-// Funcion para calcular y mostrar el costo ponderado en la página
-function calcularPonderado(viajes, viajeDestino, viajeSiguienteInicio) {
-  const distance = calculateDistance(positionInicio, positionDestino);
-  const timeInMinutesPromise = calculateTimeOfArrival(
-    positionInicio,
-    positionDestino
-  );
+function encontrarVerticeCercano(distancias, visitados) {
+  let distanciaMinima = Number.MAX_VALUE;
+  let verticeMasCercano = null;
 
-  timeInMinutesPromise
-    .then((timeInMinutes) => {
-      const weightedCost = calculateWeightedCost(distance, timeInMinutes);
+  for (const vertice in distancias) {
+    const noVisitado = !visitados[vertice];
+    const distanciaActual = distancias[vertice];
 
-      const distancia = distance.toFixed(2);
-      ponderado = weightedCost.toFixed(2);
-      tiempo = timeInMinutes;
-      entreViaje = [
-        {
-          destinoFinalViaje: viajeDestino,
-          inicioSiguienteViaje: viajeSiguienteInicio,
-          poderadoEntreViajes: ponderado,
-        },
-      ];
+    if (noVisitado && distanciaActual < distanciaMinima) {
+      distanciaMinima = distanciaActual;
+      verticeMasCercano = vertice;
+    }
+  }
 
-      const tree = AlgoritmoPrim(viajes, entreViaje);
-      console.log("Nodes:", [...tree.entreViaje]);
-      console.log("Edges:", tree.entreViaje);
-
-      //console.log('Destino',viajeDestino ,'Siguiente',viajeSiguienteInicio )
-    })
-    .catch((error) => {
-      console.error("Error:", error.message);
-    });
+  return verticeMasCercano;
 }
 
-function AlgoritmoPrim(viajes, entreViaje) {
-  //console.log("Entre Viajes ", entreViaje);
-  //console.log("Viajes", viajes);
-  const nodes = new Set();
-  let siguiente, inicio;
+function algoritmoPrim(locations) {
+  const vertexCount = locations.length;
+  const distances = {};
+  const visited = {};
 
-  viajes.forEach((edge) => {
-    nodes.add(edge.from);
-    nodes.add(edge.to);
+  locations.forEach((location, index) => {
+    distances[index] = Number.MAX_VALUE;
+    visited[index] = false;
   });
 
-  const startingNode = viajes[0].from;
+  distances[0] = 0;
 
-  const tree = {
-    nodes: new Set([startingNode]),
-    viajes: [],
-  };
-  for (let i = 0; i < nodes.size; i++) {
-    inicio  = viajes[i].to;
-    if (inicio == undefined) {
-     break;
-    }
-    
-    for (let n = 1; n < nodes.size; n++) {
-      if (siguiente == undefined) {
-        siguiente = viajes[i].to;
-        //break;
-      }
-      siguiente = viajes[n].from;
+  for (let i = 0; i < vertexCount - 1; i++) {
+    const currentVertex = encontrarVerticeCercano(distances, visited);
+    visited[currentVertex] = true;
 
-      if (
-        inicio === entreViaje[0].destinoFinalViaje &&
-        siguiente === entreViaje[0].inicioSiguienteViaje
-      ) {
-        let minEdge = null;
-        let minPondeEntreViajes = Infinity;
-        let minWeight = Infinity;
-        if (entreViaje[0].poderadoEntreViajes < minPondeEntreViajes) {
-          if(viajes[i].weight < minWeight){
-            minEdge = viajes[i];
-            minWeight = viajes[i].weight;
-            //console.log('a', minEdge);
-          }
-
-          minPondeEntreViajes = entreViaje[0].poderadoEntreViajes;
-          if (minEdge) {
-            tree.viajes.push(minEdge);
-            tree.nodes.add(minEdge.from);
-            tree.nodes.add(minEdge.to);
-          }
-
+    locations.forEach((location, index) => {
+      if (!visited[index]) {
+        const distance = calculateDistance(locations[currentVertex], location);
+        if (distance < distances[index]) {
+          distances[index] = distance;
         }
-      }      
-    }
-    
-
-
+      }
+    });
   }
-  return tree;
+
+  return distances;
 }
-
-

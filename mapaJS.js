@@ -140,15 +140,9 @@ document.addEventListener('DOMContentLoaded',  () => {
   document.getElementById('formPasajero').addEventListener('submit', function(event) {
     event.preventDefault();
     const nodoViajeInicio = document.getElementById('inputInicio').value;
-    const nodoViajeDestino = document.getElementById('inputFinal').value;
-    const ponde  = ponderado;
-    const tiemp = tiempo;
-
     const data = {
-      nodoViajeInicio: nodoViajeInicio,
-      nodoViajeDestino: nodoViajeDestino,
-      ponderado: ponde,
-      tiempo:  tiemp,
+      nodoViaje: nodoViajeInicio,
+      
     };
     console.log('Datos del JS', data);
 
@@ -175,16 +169,3 @@ document.addEventListener('DOMContentLoaded',  () => {
   });
 });
 
-//Cerrar Sesión
-/*router.get('/logout', (req, res) => {
-  req.logout();
-  if (req.session) {
-    req.session.destroy(function (err) {
-      if (err) {
-        console.log(err)
-      }
-      console.log("Destroyed the user session on Auth0 endpoint");
-      res.redirect('/');
-    });
-  }
-});*/
