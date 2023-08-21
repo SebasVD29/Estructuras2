@@ -70,7 +70,7 @@ header {
   transform: scaleX(1);
 }
 
-.navigation .btnLogOut {
+.navigation .logout {
   width: 130 px;
   height: 50 px;
   background: transparent;
@@ -87,10 +87,23 @@ header {
   
 }
 
-.navigation .btnLogOut:hover{
+.navigation .logout:hover{
   background: #fff;
   color: #162938;
 
+}
+
+
+#logout {
+  background-color: #162938; /* Cambiar el color de fondo a rojo */
+  color: #FFFFFF; /* Cambiar el color del texto a blanco */
+  border: none; /* Eliminar el borde */
+  padding: 10px 20px; /* Añadir espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambiar el cursor al pasar por encima */
+  border: 2px solid #fff;
+  outline: none;
+  border-radius: 6px;
 }
 
 .wrapper {

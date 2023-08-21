@@ -15,9 +15,7 @@
         <a href="mapa.html">Mapa</a>
         <a href="#">Sobre Nosotros</a>
         <a href="#">Servicios</a>
-        <form action="/logout" method="POST">
-          <button type="submit">LogOut</button>
-        </form>
+        <button id="logout">LogOut</button>
         <!--class ="btnLogout-popup">-->
       </nav>
     </header>
@@ -41,6 +39,18 @@
                   id="inputFinal"
                   placeholder="Ubicación Final"
                 />
+                <label for="inputParada">Ingrese la parada deseada</label>
+                <input
+                  type="text"
+                  id="inputParada"
+                  placeholder="Ubicación de Parada"
+                />
+                <label for="segundaParada">Ingrese la parada deseada</label>
+                <input
+                  type="text"
+                  id="inputsParada"
+                  placeholder="Ubicación de Parada"
+                />
               </li>
             </ul>
 
@@ -52,12 +62,10 @@
               <label for="timeResult">Tiempo de llegada: 
                 <span id="timeResult">___</span> minutos
               </p>
-              <label for="weightedCostResult">Costo ponderado: 
-                <span id="weightedCostResult">___</span>
-              </label>
+
             </div>
           </div>
-          <button type="submit">Iniciar Viaje</button>
+          <button class="btnViaje">Iniciar Viaje</button>
         </form>
       </div>
     </div>
@@ -65,7 +73,8 @@
 
     <script src="mapaJS.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxSmr4a9OHBn0Kl1RzLoGsskv4ZCi_oN4&callback=initMap&libraries=places&libraries=places,geometry&sensor=false"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   </body>
 </html>
