@@ -3,11 +3,10 @@ const divMapa = document.getElementById("map");
 let datosBD;
 let map;
 let service;
-let entreViaje;
-let positionInicio, positionSiguiente; // Variables para almacenar las coordenadas de la posición inicial y final.
-let ponderadoEntreViajes, tiempoEntreViajes;
-let tiempo, ponderado;
-let minInicio = Infinity;
+let positionInicio, positionSiguiente, distanciaInt, distanciaDouble; // Variables para almacenar las coordenadas de la posición inicial y final.
+let minInicio  = Infinity;;
+let minimoPeso = Infinity;
+let bandera = true;
 
 fetch("/datos-viajes")
   .then((response) => response.json())
@@ -34,7 +33,6 @@ function arbol() {
   const viajes = datosBD.map((viaje) => ({
     id: viaje.idViaje,
     nodo: viaje.nodoViaje,
-    
   }));
   entreViajes(viajes);
 }
@@ -44,10 +42,7 @@ function entreViajes(viajes) {
 
   viajes.forEach((edge) => {
     nodes.add(edge.nodo);
-    
   });
-
-  // console.log("nodos", nodes);
 
   BusquedaDeLugar(viajes, nodes);
 }
@@ -57,29 +52,25 @@ function iniciarViaje(viajeDestino, viajeSiguiente) {
     { lat: viajeDestino.lat, lng: viajeDestino.lng },
     { lat: viajeSiguiente.lat, lng: viajeSiguiente.lng },
   ];
- /* console.log(
+  /* console.log(
     "Viaje",
     viajeDestino,
     "Viaje Siguiente",
     viajeSiguiente
   );*/
-
-  //console.log(locations);
   locations.forEach((location) => {
     new google.maps.Marker({
       position: location,
       map: map,
     });
   });
-
   const distances = algoritmoPrim(locations);
   //console.log(distances);
   let previousVertex = 0;
-  let totalDistance = 0;
-  let minimoPeso = Infinity;
   for (let i = 1; i < locations.length; i++) {
     if (distances[i] < minimoPeso) {
       //console.log("Distancias", distances[i]);
+      bandera = true;
       const line = new google.maps.Polyline({
         path: [locations[previousVertex], locations[i]],
         strokeColor: "#0000FF",
@@ -91,13 +82,18 @@ function iniciarViaje(viajeDestino, viajeSiguiente) {
       previousVertex = i;
     }
   }
+  //console.log("bandera", bandera);
+  bandera = false;
 }
 
 function BusquedaDeLugar(viajes, nodes) {
   let nodoViaje, nodoViajeSiguiente;
   let m = 0;
+  
 
   for (let n = 0; n < nodes.size; n++) {
+    nodoViaje = viajes[n].nodo;
+    
     for (m; m < nodes.size; m++) {
       if (viajes[m] == undefined) {
         viajeSiguienteInicio = viajes[n].nodo;
@@ -107,25 +103,26 @@ function BusquedaDeLugar(viajes, nodes) {
         m = n + 1;
       }
 
-      nodoViaje = viajes[n].nodo;
       nodoViajeSiguiente = viajes[m].nodo;
-      
+
       console.log(
-        "Viaje ",
+        "Opciones de Viaje ",
         nodoViaje,
 
         "Viaje Siuientes",
         nodoViajeSiguiente
       );
-
-      cualcularLatLng(nodoViaje, nodoViajeSiguiente);
+      cualcularLatLng( nodoViaje, nodoViajeSiguiente);
+      /*if (bandera) {
+        break;
+      }*/
     }
-    m=n+1;
+    m = n + 1;
   }
 }
 
 function cualcularLatLng(nodoViaje, nodoViajeSiguiente) {
-  let distancia;
+  
 
   const request1 = {
     query: nodoViaje,
@@ -137,7 +134,7 @@ function cualcularLatLng(nodoViaje, nodoViajeSiguiente) {
   };
 
   service = new google.maps.places.PlacesService(map);
-  service.findPlaceFromQuery(request1, (results1, status1) => {
+  return service.findPlaceFromQuery(request1, (results1, status1) => {
     service.findPlaceFromQuery(request2, (results2, status2) => {
       if (
         status1 === google.maps.places.PlacesServiceStatus.OK &&
@@ -163,23 +160,19 @@ function cualcularLatLng(nodoViaje, nodoViajeSiguiente) {
           }
         }
       }
-      distancia = [calculateDistance(positionInicio, positionSiguiente)];
       
+      distanciaDouble = [calculateDistance(positionInicio, positionSiguiente)];
+      distanciaInt = parseInt(distanciaDouble.toString(), 10);
       
-
-      //console.log("a", distancia <minInicio);
-      if (distancia < minInicio) {
-        /*console.log(
-          "Viaje",
-          nodoViaje,
-          "Viaje Siguiente",
-          nodoViajeSiguiente
-        );*/
+      if (distanciaInt < minInicio) {
+        console.log("Viaje", nodoViaje, "Viaje Siguiente", nodoViajeSiguiente);
         iniciarViaje(positionInicio, positionSiguiente);
-        minInicio = distancia;
+        minInicio = distanciaInt;
       }
     });
   });
+ // console.log("a", distanciaInt, "<", minInicio, distanciaInt < minInicio);
+  
 }
 
 // Funcion para calcular la distancia entre dos puntos utilizando la API de Google Maps
