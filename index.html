@@ -2,38 +2,47 @@
 <html>
 
     <head>
+          <!-- Metadatos -->
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+            <!-- Título de la página -->
         <title>
             UveP 
         </title>
+         <!-- Enlace al archivo de estilos CSS -->
         <link rel="stylesheet" href="loginStyle.css">
         
     </head>
     <body>
         
         <header>
+               <!-- Encabezado -->
             <h2 class = "UveP"> UveP</h2>
             <nav class ="navigation">
+                <!-- Enlaces de navegación -->
                 <a href ="index.html">Inicio</a>
                 <a href ="#">Sobre Nosotros</a>
                 <a href ="#">Servicios</a>
                 <a href ="#">Contacto</a>
+                <!-- Botón de inicio de sesión -->
                 <button class ="btnLogin-popup">LogIn</button>
             </nav>    
         </header>  
-
+   <!-- Contenedor principal -->
         <div class="wrapper">
+             <!-- Icono para cerrar el formulario -->
             <span class="icon-close"><ion-icon name="close-outline"></ion-icon>
             </span>
             <div class = "form-box login">
                 <h2>LogIn</h2>
 
+ <!-- Formulario de inicio de sesión -->
                 <form action="/login" id="loginForm" method="post">
 
                     <div class ="input-box">
+                         <!-- Campos de usuario y contraseña -->
                         <span class="icon"><ion-icon name="mail"></ion-icon></span>
                         <input  type ="text" id="name" name="name" required>
                         <label> Nombre de usuario</label>
@@ -43,6 +52,7 @@
                         <input  type = "password" id="password" name="password" required>
                         <label> Contraseña</label>
                     </div> 
+                      <!-- Opciones de recordar cuenta y olvidar contraseña -->
                     <div class= "recordar-olvido">
                         <label><input type = "checkbox">
                         Recordar Cuenta   
@@ -50,9 +60,10 @@
                         <a href="#" ¿Olvidó su contraseña?></a>
 
                     </div>
+                      <!-- Botón para iniciar sesión -->
 
                     <button type ="submit" class="btn">LogIn</button>
-
+ <!-- Enlace para registrarse -->
                     <div class = "login-registro">
                         <p>¿No tienes una cuenta?
                             <a href = "#" class = "registro-link">Registrarse</a>
@@ -101,9 +112,11 @@
                 </form>
             </div>
         </div>
-
+  <!-- Enlace a archivo de script JavaScript -->
         <script src ="loginJS.js"></script>
+          <!-- Carga de iconos ionicons utilizando ES modules (moderno) -->
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+          <!-- Carga de iconos ionicons para navegadores no compatibles con ES modules -->
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
  
     </body>
